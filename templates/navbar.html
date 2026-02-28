@@ -1,0 +1,160 @@
+{% load static %}
+
+<!-- header-section - start
+		================================================== -->
+		
+		<header id="header-section" class="header-section default-header-section sticky-header-section not-stuck clearfix">
+			<!-- header-top - start -->
+			<div class="header-top">
+				<div class="container">
+					<div class="row">
+	
+						<!-- basic-contact - start -->
+						<div class="col-lg-6">
+							<div class="basic-contact">
+								<ul>
+									<li>
+										<a href="#!">
+											<i class="fas fa-envelope"></i>
+											info@Tickora.com
+										</a>
+									</li>
+									<li>
+										<a href="#!">
+											<i class="fas fa-phone"></i>
+											0772107515
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!-- basic-contact - end -->
+	
+						<!-- register-login-group - start -->
+						<div class="col-lg-6">
+							<div class="register-login-group">
+								<ul>
+									{% if user.is_authenticated %}
+									<li>
+										<img src="{{ user.profile_pic.url }}" alt="{{ user.first_name }}" class="navbar-profile-img" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
+    									{% comment %} <a href="{% url 'profile' %}">{{ user.username }}</a> {% endcomment %}
+									</li>
+									<li>
+										<a href="{% url 'logout' %}">
+											<i class="fas fa-lock"></i>
+											logout
+										</a>
+									</li>
+									{% else %}
+									<li>
+										<a href="{% url 'signup' %}">
+											<i class="fas fa-user"></i>
+											Register
+										</a>
+									</li>
+									<li>
+										<a href="{% url 'login' %}">
+											<i class="fas fa-lock"></i>
+											Login
+										</a>
+									</li>
+									{% endif %}
+									
+								</ul>
+							</div>
+						</div>
+						<!-- register-login-group - end -->
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- header-top - end -->
+	
+			<!-- header-bottom - start -->
+			<div class="header-bottom">
+				<div class="container">
+					<div class="row">
+	
+						<!-- site-logo-wrapper - start -->
+						<div class="col-lg-3">
+							<div class="site-logo-wrapper">
+								<a href="{% url 'homepage' %}" class="logo">
+									<img src="{% static 'assets/images/logo.png' %}" alt="logo_not_found">
+								</a>
+							</div>
+						</div>
+						<!-- site-logo-wrapper - end -->
+	
+						<!-- mainmenu-wrapper - start -->
+						<div class="col-lg-9">
+							<div class="mainmenu-wrapper">
+								<div class="row">
+	
+									<!-- menu-item-list - start -->
+									<div class="col-lg-10">
+										<div class="menu-item-list ul-li clearfix">
+											<ul>
+												<li class="menu-item-has-children active">
+													<a href="{% url 'homepage' %}">home</a>
+												</li>
+												<li class="menu-item-has-children">
+													<a href="{% url 'event-list' %}">events</a>
+												</li>
+												<li>
+													<a href="{% url 'services' %}">Services</a>
+												</li>
+												<li class="menu-item-has-children">
+													<a href="{% url 'contact' %}">contact</a>
+												</li>
+												<li class="menu-item-has-children">
+													<a href="{% url 'about_us' %}">about</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<!-- menu-item-list - end -->
+	
+									<!-- menu-item-list - start -->
+									<div class="col-lg-2">
+										<div class="user-search-btn-group ul-li clearfix">
+											<ul>
+	
+												<li>
+													<button type="button" class="toggle-overlay search-btn">
+														<i class="fas fa-search"></i>
+													</button>
+													<!-- search-body - start -->
+													<div class="search-body">
+														<div class="search-form">
+															<form action="#">
+																<input class="search-input" type="search" placeholder="Search Here">
+																<div class="outer-close toggle-overlay">
+																	<button type="button" class="search-close">
+																		<i class="fas fa-times"></i>
+																	</button>
+																</div>
+															</form>
+														</div>
+													</div>
+													<!-- search-body - end -->
+												</li>
+											</ul>
+										</div>
+									</div>
+									<!-- menu-item-list - end -->
+	
+								</div>
+							</div>
+						</div>
+						<!-- mainmenu-wrapper - end -->
+	
+					</div>
+				</div>
+			</div>
+			<!-- header-bottom - end -->
+	
+		</header>
+		
+		<!-- header-section - end
+		================================================== -->

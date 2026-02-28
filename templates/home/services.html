@@ -1,0 +1,443 @@
+{% extends "front_base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- breadcrumb-section - start
+		================================================== -->
+		<section id="breadcrumb-section" class="breadcrumb-section clearfix">
+			<div class="jarallax" style="background-image: url({% static 'assets/images/breadcrumb/0.breadcrumb-bg.jpg' %});">
+				<div class="overlay-black">
+					<div class="container">
+						<div class="row justify-content-center">
+							<div class="col-lg-6 col-md-12 col-sm-12">
+
+								<!-- breadcrumb-title - start -->
+								<div class="breadcrumb-title text-center mb-50">
+									<span class="sub-title">what we can do</span>
+									<h2 class="big-title">Tickora <strong>services</strong></h2>
+								</div>
+								<!-- breadcrumb-title - end -->
+
+								<!-- breadcrumb-list - start -->
+								<div class="breadcrumb-list">
+									<ul>
+										<li class="breadcrumb-item"><a href="{% url 'homepage' %}" class="breadcrumb-link">Home</a></li>
+										<li class="breadcrumb-item"><a href="{% url 'about_us' %}" class="breadcrumb-link">About</a></li>
+										<li class="breadcrumb-item active" aria-current="page">services</li>
+									</ul>
+								</div>
+								<!-- breadcrumb-list - end -->
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- breadcrumb-section - end
+		================================================== -->
+
+
+
+
+
+		<!-- service-section - start
+		================================================== -->
+		<section id="service-section" class="service-section sec-ptb-100 clearfix">
+			<div class="container">
+
+				<!-- service-wrapper - start -->
+				<div class="service-wrapper">
+
+					<!-- service-item - start -->
+					<div class="service-item clearfix">
+						<div class="service-image float-left">
+							<div class="big-image">
+								<img src="{% static 'assets/images/service/1.event.jpg' %}" alt="Image_not_found">
+							</div>
+							{% comment %} <div class="small-image">
+								<img src="{% static 'assets/images/service/2.event.jpg' %}" alt="Image_not_found">
+							</div> {% endcomment %}
+						</div>
+						<div class="service-content float-right">
+							<div class="service-title mb-30 pb-2">
+								<h2 class="title-text">Event <strong>Tickets</strong></h2>
+								<span class="service-price">price start from $52.00</span>
+							</div>
+							<p class="service-description black-color mb-30">
+                                Event tickets for various occasions such as concerts, sports events, theater, and conferences. Enjoy the best events in your city with our easy booking system.							</p>
+							<div class="service-type-list mb-50 clearfix">
+								<ul>
+
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Music Concerts
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Sports Events
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Theater Performances
+									</li>
+
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Business Conferences
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Festivals
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Workshops and Seminars
+									</li>
+
+								</ul>
+							</div>
+							<div class="text-left">
+								<a href="#!" class="custom-btn">make an event</a>
+								<a href="#!" class="conference-btn">conference event</a>
+							</div>
+						</div>
+					</div>
+					<!-- service-item - end -->
+
+					<!-- service-item - start -->
+					<div class="service-item clearfix">
+						<div class="service-image float-right">
+							<div class="big-image">
+								<img src="{% static 'assets/images/service/1.plane.jpg' %}" alt="Image_not_found">
+							</div>
+							{% comment %} <div class="small-image">
+								<img src="{% static 'assets/images/service/2.plane.jpg' %}" alt="Image_not_found">
+							</div> {% endcomment %}
+						</div>
+						<div class="service-content float-left">
+							<div class="service-title mb-30 pb-2">
+								<h2 class="title-text">Airplane <strong>Tickets</strong></h2>
+								<span class="service-price">price start from $52.00</span>
+							</div>
+							<p class="service-description black-color mb-30">
+                                Airplane tickets for domestic and international flights. Find the best deals and fly to your destination with top airlines.							</p>
+							<div class="service-type-list mb-50 clearfix">
+								<ul>
+
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Domestic Flights
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										International Flights
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Business Class
+									</li>
+
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Economy Class
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										First Class
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Charter Flights
+									</li>
+
+								</ul>
+							</div>
+							<div class="text-left">
+								<a href="#!" class="custom-btn">make an event</a>
+								<a href="#!" class="conference-btn">musical event</a>
+							</div>
+						</div>
+					</div>
+					<!-- service-item - end -->
+
+					<!-- service-item - start -->
+					<div class="service-item clearfix">
+						<div class="service-image float-left">
+							<div class="big-image">
+								<img src="{% static 'assets/images/service/1.cinema.jpg' %}" alt="Image_not_found">
+							</div>
+							{% comment %} <div class="small-image">
+								<img src="{% static 'assets/images/service/2.cinema.jpg' %}" alt="Image_not_found">
+							</div> {% endcomment %}
+						</div>
+						<div class="service-content float-right">
+							<div class="service-title mb-30 pb-2">
+								<h2 class="title-text">Cinema <strong>Tickets</strong></h2>
+								<span class="service-price">price start from $52.00</span>
+							</div>
+							<p class="service-description black-color mb-30">
+                                Cinema tickets for the latest movies in town. Enjoy the latest blockbusters in state-of-the-art theaters.							</p>
+							<div class="service-type-list mb-50 clearfix">
+								<ul>
+
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										New Releases
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										3D Movies
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										IMAX Screenings
+									</li>
+
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Family Movies
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Classic Films
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Special Screenings
+									</li>
+
+								</ul>
+							</div>
+							<div class="text-left">
+								<a href="#!" class="custom-btn">make an event</a>
+								<a href="#!" class="conference-btn">playground event</a>
+							</div>
+						</div>
+					</div>
+					<!-- service-item - end -->
+
+					<!-- service-item - start -->
+					<div class="service-item clearfix">
+						<div class="service-image float-right">
+							<div class="big-image">
+								<img src="{% static 'assets/images/service/1.bus.jpg' %}" alt="Image_not_found">
+							</div>
+							{% comment %} <div class="small-image">
+								<img src="{% static 'assets/images/service/2.bus.jpg' %}" alt="Image_not_found">
+							</div> {% endcomment %}
+						</div>
+						<div class="service-content float-left">
+							<div class="service-title mb-30 pb-2">
+								<h2 class="title-text">Bus <strong>Tickets</strong></h2>
+								<span class="service-price">price start from $52.00</span>
+							</div>
+							<p class="service-description black-color mb-30 ">
+                                Bus tickets for local and long-distance travel. Comfortable and affordable bus services connecting various cities and towns							</p>
+							<div class="service-type-list mb-50 clearfix">
+								<ul>
+
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Local Travel
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Intercity Travel
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Overnight Buses
+									</li>
+
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Tourist Buses
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Airport Shuttles
+									</li>
+									<li>
+										<span class="icon">
+											<i class="fas fa-arrow-circle-right"></i>
+										</span>
+										Charter Buses
+									</li>
+
+								</ul>
+							</div>
+							<div class="text-left">
+								<a href="#!" class="custom-btn">make an event</a>
+								<a href="#!" class="conference-btn">party event</a>
+							</div>
+						</div>
+					</div>
+					<!-- service-item - end -->
+
+				</div>
+				<!-- service-wrapper - end -->
+
+			</div>
+		</section>
+		<!-- service-section - end
+		================================================== -->
+
+
+
+
+
+		<!-- special-offer-section - start
+		================================================== -->
+		<section id="special-offer-section" class="special-offer-section clearfix" style="background-image: url({% static 'assets/images/special-offer-bg.png' %});">
+			<div class="container">
+				<div class="row">
+
+					<!-- special-offer-content - start -->
+					<div class="col-lg-9 col-md-12 col-sm-12">
+						<div class="special-offer-content">
+							<h2> Let Us Manage <span>Your Events</span></h2>
+							<p class="m-0">
+								Contact us now and we will make your event unique & unforgettable
+							</p>
+						</div>
+					</div>
+					<!-- special-offer-content - end -->
+
+					<!-- event-makeing-btn - start -->
+					<div class="col-lg-3 col-md-12 col-sm-12">
+						<div class="event-makeing-btn">
+							<a href="#!">make an event now</a>
+						</div>
+					</div>
+					<!-- event-makeing-btn - end -->
+
+				</div>
+			</div>
+		</section>
+		<!-- special-offer-section - end
+		================================================== -->
+
+
+
+
+
+		<!-- google map - start ================================================== -->
+		<section id="map-section" class="map-section clearfix">
+			<div class="address-wrapper">
+
+				<!-- address-info-topbar - start -->
+				<div class="address-info-topbar mb-30 clearfix">
+					<div class="address-info-left">
+						<h3 class="title-text">Tickora event management</h3>
+						<p class="m-0">
+							Lusaka, Zambia
+						</p>
+					</div>
+
+					<div class="address-info-right">
+						<ul>
+							<li>
+								<button type="button">
+									<span class="icon"><i class="fas fa-street-view"></i></span>
+									<small>Direction</small>
+								</button>
+							</li>
+							<li>
+								<button type="button">
+									<span class="icon"><i class="fas fa-rss"></i></span>
+									<small>Save</small>
+								</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- address-info-topbar - end -->
+
+				<!-- address-info-bottombar - start -->
+				<div class="address-info-bottombar clearfix">
+					<div class="address-info-left">
+						<div class="rating-star">
+							<span class="rating-point">4.5</span>
+							<ul>
+								<li><i class="fas fa-star"></i></li>
+								<li><i class="fas fa-star"></i></li>
+								<li><i class="fas fa-star"></i></li>
+								<li><i class="fas fa-star"></i></li>
+								<li><i class="fas fa-star-half"></i></li>
+							</ul>
+						</div>
+						<p class="m-0">105 reviews</p>
+					</div>
+
+					<div class="address-info-right">
+						<button type="button" class="map-larger-btn">
+							view larger map
+						</button>
+					</div>
+				</div>
+				<!-- address-info-bottombar - end -->
+
+			</div>
+
+			<!-- Embedded Google Map - Start -->
+			<div id="google-map">
+				<iframe
+					src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d30769.320855232763!2d28.2877316!3d-15.421637599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1szambia%20website%20google%20maps%20link!5e0!3m2!1sen!2szm!4v1747990944446!5m2!1sen!2szm"
+					width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+					referrerpolicy="no-referrer-when-downgrade">
+				</iframe>
+			</div>
+			<!-- Embedded Google Map - End -->
+
+		</section>
+		<!-- google map - end -->
+
+{% endblock content %}
+

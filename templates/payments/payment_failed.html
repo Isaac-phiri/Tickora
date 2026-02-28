@@ -1,0 +1,57 @@
+
+{% block content %}
+<div class="container mt-6">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">Payment Failed</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Payment Unsuccessful!</h4>
+                        <p>{{ error_message }}</p>
+                        <hr>
+                        <p class="mb-0">Your order could not be processed. Please try again.</p>
+                    </div>
+                    
+                    <div class="order-details mt-4">
+                        <h5>Order Details</h5>
+                        <table class="table">
+                            <tr>
+                                <th>Event:</th>
+                                <td>{{ event.event_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Ticket Type:</th>
+                                <td>{{ ticket.ticket_type }}</td>
+                            </tr>
+                            <tr>
+                                <th>Quantity:</th>
+                                <td>{{ ticket.quantity }}</td>
+                            </tr>
+                            <tr>
+                                <th>Amount:</th>
+                                <td>ZMW {{ ticket.total_price }}</td>
+                            </tr>
+                            <tr>
+                                <th>Reference:</th>
+                                <td>{{ ticket.ticket_id }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="actions mt-4">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i> Try Again
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary ml-2">
+                            <i class="fas fa-question-circle"></i> Need Help?
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

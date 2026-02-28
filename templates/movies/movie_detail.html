@@ -1,0 +1,111 @@
+{% extends 'cinema_base.html' %}
+
+{% block title %}{{ movie.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-img-top bg-dark" style="height: 400px; background-color: #f5f5f5;">
+                    <!-- Placeholder for movie poster -->
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <span class="text-muted">{{ movie.title }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h1 class="display-5">{{ movie.title }}</h1>
+            <p class="lead">{{ movie.director }}</p>
+            
+            <div class="d-flex gap-2 mb-3">
+                <span class="badge bg-primary">{{ movie.rating }}</span>
+                <span class="badge bg-secondary">{{ movie.language }}</span>
+                {% for genre in movie.genre.all %}
+                <span class="badge bg-success">{{ genre.name }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="mb-4">
+                <h5>Synopsis</h5>
+                <p>{{ movie.synopsis }}</p>
+            </div>
+
+            <div class="row g-2 mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Duration</h6>
+                            <p class="card-text">{{ movie.duration|time:"H:i" }} hours</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Release Date</h6>
+                            <p class="card-text">{{ movie.release_date|date:"M d, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Upcoming Screenings</h2>
+            
+            {% if upcoming_screenings %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Cinema</th>
+                            <th>Date & Time</th>
+                            <th>Screen</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Seats</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for screening in upcoming_screenings %}
+                        <tr>
+                            <td>{{ screening.cinema.name }}</td>
+                            <td>{{ screening.start_time|date:"M d, Y H:i" }}</td>
+                            <td>{{ screening.screen_number }}</td>
+                            <td>
+                                {% if screening.is_3d %}3D{% endif %}
+                                {% if screening.is_imax %}IMAX{% endif %}
+                                {% if screening.is_dolby %}Dolby{% endif %}
+                                {% if not screening.is_3d and not screening.is_imax and not screening.is_dolby %}Standard{% endif %}
+                            </td>
+                            <td>${{ screening.base_price }}</td>
+                            <td>
+                                {% if screening.is_sold_out %}
+                                <span class="badge bg-danger">Sold Out</span>
+                                {% else %}
+                                <span class="badge bg-success">{{ screening.seats_available }} available</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                <a href="#" class="btn btn-sm btn-primary">Book Now</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                No upcoming screenings scheduled for this movie
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

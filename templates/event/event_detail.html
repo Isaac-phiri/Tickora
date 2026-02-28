@@ -1,0 +1,372 @@
+{% extends 'front_base.html' %}
+{% load static %}
+
+
+
+{% block content %}	
+<style>/* Ticket Options */
+	/* Ticket Options */
+.ticket-options {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.ticket-option-item {
+    margin-bottom: 20px;
+}
+
+.ticket-option-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.ticket-option-details {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.ticket-option-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.ticket-quantity {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Total Price Section */
+.total-price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.total-price-label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.total-price-amount {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* User Details Form */
+.user-details-form {
+    margin-top: 20px;
+}
+
+.form-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 50px;
+	text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.custom-button{
+    width: 100%;
+    padding: 10px;
+    background-color: #f86262;
+    color: white;
+    border: none;
+    border-radius: 5px;
+	text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-btn:hover {
+    background-color: #0056b3;
+}
+.header-leftside-content{
+	font-size: 1.1rem;
+}
+
+</style>
+<!-- breadcrumb-section - start
+		================================================== -->
+		<section id="breadcrumb-section" class="breadcrumb-section clearfix">
+			<div class="jarallax" style="background-image: url({% static 'assets/images/breadcrumb/0.breadcrumb-bg.jpg' %});">
+				<div class="overlay-black">
+					<div class="container">
+						<div class="row justify-content-center">
+							<div class="col-lg-6 col-md-12 col-sm-12">
+
+								<!-- breadcrumb-title - start -->
+								<div class="breadcrumb-title text-center mb-50">
+									<span class="sub-title">event single</span>
+									<h2 class="big-title">Tickora <strong>event details</strong></h2>
+								</div>
+								<!-- breadcrumb-title - end -->
+
+								<!-- breadcrumb-list - start -->
+								<div class="breadcrumb-list">
+									<ul>
+										<li class="breadcrumb-item"><a href="{% url 'homepage' %}" class="breadcrumb-link">Home</a></li>
+										<li class="breadcrumb-item"><a href="{% url 'event-list' %}" class="breadcrumb-link">Events</a></li>
+										<li class="breadcrumb-item active" aria-current="page">{{event.event_name|truncatechars:9 }}</li>
+									</ul>
+								</div>
+								<!-- breadcrumb-list - end -->
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- breadcrumb-section - end
+		================================================== -->
+
+
+
+
+
+		<!-- event-details-section - start
+		================================================== -->
+		<section id="event-details-section" class="event-details-section sec-ptb-100 clearfix">
+			<div class="container">
+				<div class="row">
+
+					<!-- col - event-details - start -->
+					<div class="col-lg-6 col-md-12 col-sm-12">
+
+						<!-- event-details - start -->
+						<div class="event-details mb-80">
+
+							<div class="event-title mb-30">
+								<span class="tag-item">
+									<i class="fas fa-bookmark"></i>
+									Featured Event
+								</span>
+								<h2 class="event-title"><strong>{{ event.event_name|truncatechars:30}}</strong></h2>
+							</div>
+
+							<div id="event-details-carousel" class="event-details-carousel owl-carousel owl-theme">
+								<div class="item">
+									<img class="event-image" src="{{ event.image.url }}" alt="Image_not_found">
+								</div>
+							</div>
+							
+
+							<h3 style="font-weight: bold;">Host</h3>
+							<p class="black-color mb-4">
+								Zamkiid
+							</p>
+
+							<h3 style="
+								font-weight: bold;
+							">Description</h3>
+							<p class="black-color m-0">
+								{{event.description}}
+							</p>
+
+							<h3 class="mt-4" style="font-weight: bold;">Dates</h3>
+							<p class="black-color  mt-4">
+								{{ event.date_and_time|date:"d F Y" }} {{ event.date_and_time|date:"H:i A" }}
+							</p>
+
+							<h3 style="font-weight: bold;">Photos</h3>
+							<p class="black-color mb-4">
+								Zamkiid
+							</p>
+
+							<h3 style="font-weight: bold;">Location</h3>
+							<p class="black-color mb-4">
+								{{ event.venue }}
+							</p>
+
+							<h3 style="font-weight: bold;">Map</h3>
+						</div>
+						<!-- map-wrapper - start -->
+						<div class="map-wrapper mb-30">
+
+							<!-- section-title - start -->
+							<div class="section-title mb-30">
+								<h2 class="big-title">event <strong>location</strong></h2>
+							</div>
+							<!-- section-title - end -->
+
+							<!-- Embedded Google Map - Start -->
+							<div id="google-map">
+								<iframe
+									src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d30769.320855232763!2d28.2877316!3d-15.421637599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1szambia%20website%20google%20maps%20link!5e0!3m2!1sen!2szm!4v1747990944446!5m2!1sen!2szm"
+									width="1200" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+									referrerpolicy="no-referrer-when-downgrade">
+								</iframe>
+							</div>
+							<!-- Embedded Google Map - End -->
+
+						</div>
+						<!-- map-wrapper - end -->
+						<!-- event-details - end -->
+
+						
+
+						<script>
+							function updateTotalPrice() {
+							const quantity = document.getElementById('quantity').value;
+							const price = {{ event.price }};
+							document.getElementById('total-price').textContent = (quantity * price).toFixed(2);
+							}
+						</script>
+
+					</div>
+					<!-- col - event-details - end -->
+
+					<!-- sidebar-section - start -->
+					<div class="col-lg-6 col-md-12 col-sm-12">
+						<div class="register-wrapper mb-70 clearfix">
+							<div class="section-title text-left mb-50" style="margin-top: 10px; padding-top: 20px; margin-bottom: 30px;">
+								<span class="line-style"></span>
+								<h2 class="big-title"><strong>Buy a Ticket</strong></h2>
+							</div>
+					
+							<div class="register-table">
+								<ul>
+									<!-- Header -->
+									<li class="rt-header mb-4">
+										<div class="header-leftside-content">
+											<strong>{{ event.event_name }}</strong> {{ event.date_and_time|date:"d F Y" }}
+										</div>
+									</li>
+					
+									<!-- Body -->
+									<li class="rt-body">
+										<div class="ticket-description mb-30">
+											<p>Kindly indicate how many tickets you would like.</p>
+										</div>
+										
+										<form method="POST" action="{% url 'event_booking' event.id %}">
+											{% csrf_token %}
+											
+											<label for="ticket_type">Ticket Type</label>
+											<select name="ticket_type" id="ticket_type" class="form-control">
+												{% for ticket_type in ticket_types %}
+													<option>{{ ticket_type }}</option>
+												{% endfor %}
+											</select>
+
+											<!-- Ticket Options -->
+											<div class="ticket-options mb-30">
+												<!-- Single Ticket -->
+												<div class="ticket-option-item mb-20">
+													<div class="row align-items-center">
+														<!-- First Column: Ticket Title and Details -->
+														<div class="col-md-6">
+															<h4 class="ticket-option-title">{{event.event_name}}</h4>
+															<p class="ticket-option-details">{{event.date_and_time}}</p>
+														</div>
+														<!-- Second Column: Price -->
+														<div class="col-md-3 text-center">
+															<p class="ticket-option-price">K {{event.price}}</p>
+														</div>
+														<!-- Third Column: Quantity Input -->
+														<div class="col-md-3 text-right">
+															<input type="number" id="quantity" name="quantity" min="1" max="{{ event.tickets_available }}" value="1" onchange="updateTotalPrice()" class="form-control">
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<!-- Total Price -->
+											<div class="total-price-section mb-30">
+												<span class="total-price-label">Total Price:</span>
+												<span class="total-price-amount">K <span id="total-price">{{event.price}}</span></span>
+											</div>
+
+											<!-- User Details Form - Only show if user is not authenticated -->
+											{% if not user.is_authenticated %}
+											<div class="user-details-form">
+												<h4 class="form-title">Enter Your Details</h4>
+												<div class="form-group">
+													<label for="full_name">Full Name:</label>
+													<input type="text" name="full_name" id="full_name" placeholder="Full Name" class="form-control" required>
+												</div>
+
+												<!-- Email -->
+												<div class="form-group">
+													<label for="email">Email:</label>
+													<input type="email" name="email" id="email" placeholder="Email Address" class="form-control" required>
+												</div>
+
+												<!-- Phone Number -->
+												<div class="form-group">
+													<label for="phone_number">Phone Number:</label>
+													<input type="tel" name="phone_number" id="phone_number" placeholder="Phone Number" class="form-control" required>
+												</div>
+											</div>
+											{% endif %}
+
+											<!-- Submit Button -->
+											<div class="form-group">
+												<button type="submit" class="custom-button">Buy A Ticket</button>
+											</div>
+										</form>
+										
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- sidebar-section - end -->	
+				</div>
+			</div>
+		</section>
+		<!-- event-details-section - end
+		================================================== -->
+			 
+
+
+
+<script>
+    function updateTotalPrice() {
+        // Get quantities
+        var singleTicketQuantity = document.querySelector('input[name="single_ticket_quantity"]').value;
+        var coupleTicketQuantity = document.querySelector('input[name="couple_ticket_quantity"]').value;
+
+        // Prices
+        var singleTicketPrice = 15000;
+        var coupleTicketPrice = 30000;
+
+        // Calculate total price
+        var totalPrice = (singleTicketQuantity * singleTicketPrice) + ( * coupleTicketPrice);
+
+        // Update total price display
+        document.getElementById('total-price').innerText = totalPrice.toLocaleString();
+    }
+
+    // Attach event listeners to quantity inputs
+    document.querySelectorAll('.ticket-quantity').forEach(input => {
+        input.addEventListener('change', updateTotalPrice);
+    });
+</script>
+{% endblock content %}
+			 

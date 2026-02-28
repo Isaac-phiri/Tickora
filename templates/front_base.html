@@ -1,0 +1,504 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+	
+<!-- Mirrored from jthemes.net/themes/html/harmony-event/index-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 11 Jun 2024 07:49:50 GMT -->
+<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<title>Tickora</title>
+		<link rel="shortcut icon" href="{% static 'statics/images/fav1.png' %}">
+
+		<!-- fraimwork - css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+
+		<!-- icon css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/fontawesome-all.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/flaticon.css' %}">
+
+		<!-- carousel css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/slick.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/slick-theme.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/animate.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/owl.carousel.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/owl.theme.default.min.css' %}">
+
+		<!-- others css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/magnific-popup.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jquery.mCustomScrollbar.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/calendar.css' %}">
+
+		<!-- color switcher css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/colors/style-switcher.css' %}">
+		<link id="color_theme" rel="stylesheet" type="text/css" href="{% static 'assets/css/colors/default.css' %}">
+
+		<!-- custom css include -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+		<style>
+		.event-item2 {
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			border-radius: 12px;
+			overflow: hidden;
+			background-color: #fff;
+		}
+
+		.event-item2:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+			z-index: 10;
+		}
+		.site-logo-wrapper img {
+			max-height: 80px;  /* or whatever height matches your navbar */
+			width: auto;
+			height: auto;
+			display: block;
+			margin: 0 auto; /* optional: centers the logo horizontally */
+		}
+		</style>
+	</head>
+	<body>
+        
+		<!-- backtotop - start -->
+		<div id="thetop" class="thetop"></div>
+		<div class='backtotop'>
+			<a href="#thetop" class='scroll'>
+				<i class="fas fa-angle-double-up"></i>
+			</a>
+		</div>
+		<!-- backtotop - end -->
+	
+		<!-- preloader - start -->
+		<div id="preloader"></div>
+		<!-- preloader - end -->
+	
+	{% include "navbar.html" %}
+
+		
+		
+		<!-- altranative-header - start
+    ================================================== -->
+    <div style="padding-bottom: 20px;" class="header-altranative">
+        <div class="container">
+            <div class="logo-area float-left">
+                <a href="{% url 'homepage' %}">
+                    <img src="{% static 'assets/images/logo.png' %}" alt="logo_not_found">
+                </a>
+            </div>
+
+            <button type="button" id="sidebarCollapse" class="alt-menu-btn float-right">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- sidebar menu - start -->
+        <div class="sidebar-menu-wrapper">
+            <div id="sidebar" class="sidebar">
+                <span id="sidebar-dismiss" class="sidebar-dismiss">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+
+                <div class="sidebar-header">
+                    <a href="{% url 'homepage' %}">
+                        <img src="{% static 'assets/images/logo.png' %}" alt="logo_not_found">
+                    </a>
+                </div>
+
+                <!-- sidebar-form - start -->
+                <div class="sidebar-form">
+                    <form action="#">
+                        <input id="altmenu-sidebar-search" type="search" placeholder="Search">
+                        <label for="altmenu-sidebar-search"><i class="fas fa-search"></i></label>
+                    </form>
+                </div>
+                <!-- sidebar-form - end -->
+
+                <!-- main-pages-links - start -->
+                <div class="menu-link-list main-pages-links">
+                    <h2 class="menu-title">all home pages</h2>
+                    <ul>
+                        <li class="active">
+                            <a href="index-1.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                Home V.1
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index-2.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                Home V.2
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index-3.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                Home v.3
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index-4.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                Home v.4
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- main-pages-links - end -->
+
+                <!-- other-pages-links - start -->
+                <div class="menu-link-list other-pages-links">
+                    <h2 class="menu-title">all single pages</h2>
+                    <ul>
+                        <li>
+                            <a href="{% url 'about_us' %}">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="service.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                our Services
+                            </a>
+                        </li>
+                        <li>
+                            <a href="event-1.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                event list
+                            </a>
+                        </li>
+                        <li>
+                            <a href="event-2.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                event grid
+                            </a>
+                        </li>
+                        <li>
+                            <a href="event-1-without-sidebar.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                list without sidebar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="event-2-without-sidebar.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                grid without sidebar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="blog.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                Latest blogs
+                            </a>
+                        </li>
+                        <li>
+                            <a href="gallery.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                our gallery
+                            </a>
+                        </li>
+                        <li>
+                            <a href="speaker.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                event speakers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'contact' %}">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                contact us
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- other-pages-links - end -->
+
+                <!-- inner-pages-links - start -->
+                <div class="menu-link-list inner-pages-links">
+                    <h2 class="menu-title">all inner pages</h2>
+                    <ul>
+                        <li>
+                            <a href="booking.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                event booking
+                            </a>
+                        </li>
+                        <li>
+                            <a href="event-details.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                event details
+                            </a>
+                        </li>
+                        <li>
+                            <a href='blog-details.html'>
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                blog details
+                            </a>
+                        </li>
+                        <li>
+                            <a href="faq.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                Frequently Ask Qusetion
+                            </a>
+                        </li>
+                        <li>
+                            <a href="404-error.html">
+                                <span class="icon"><i class="fas fa-home"></i></span>
+                                404 error
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- inner-pages-links - end -->
+
+                <!-- login-btn-group - start -->
+                <div class="login-btn-group">
+                    <ul>
+
+                        <li>
+                            <a href="#alt-register-modal" class="register-modal-btn">
+                                Register
+                            </a>
+                            <div id="alt-register-modal" class="reglog-modal-wrapper register-modal mfp-hide clearfix" style="background-image: url({% static 'assets/images/backpay.jpg' %});">
+                                <div class="overlay-black clearfix">
+
+                                    <!-- leftside-content - start -->
+                                    <div class="leftside-content">
+                                        <div class="site-logo-wrapper mb-80">
+                                            <a href="{% url 'homepage' %}" class="logo">
+                                                <img src="{% static 'assets/images/logo.png' %}" alt="logo_not_found">
+                                            </a>
+                                        </div>
+                                        <div class="register-login-link mb-80">
+                                            <ul>
+                                                <li><a href="#!">Login</a></li>
+                                                <li class="active"><a href="#!">Register</a></li>
+                                            </ul>
+                                        </div>
+                                
+                                    </div>
+                                    <!-- leftside-content - end -->
+
+                                    <!-- rightside-content - start -->
+                                    <div class="rightside-content text-center">
+
+                                        <div class="mb-30">
+                                            <h2 class="form-title title-large white-color">Account <strong>Register</strong></h2>
+                                            <span class="form-subtitle white-color">Have an account? <strong>LOGIN NOW</strong></span>
+                                        </div>
+
+                                        <div class="login-form text-center mb-50">
+                                            <form action="#!">
+                                                <div class="form-item">
+                                                    <input type="email" placeholder="User Name">
+                                                </div>
+                                                <div class="form-item">
+                                                    <input type="password" placeholder="Password">
+                                                </div>
+                                                <div class="form-item">
+                                                    <input type="email" placeholder="Repeat Password">
+                                                </div>
+                                                <div class="form-item">
+                                                    <input type="password" placeholder="Email Address">
+                                                </div>
+                                                <div class="human-verification text-left">
+                                                    <input type="checkbox" id="alt-imnotarobot">
+                                                    <label for="alt-imnotarobot">I'm not a robot</label>
+                                                    <span class="verification-image">
+                                                        <img src="{% static 'assets/images/iamnotrobot.png' %}" alt="Image_not_found">
+                                                    </span>
+                                                </div>
+                                                <button type="submit" class="login-btn">login now</button>
+                                            </form>
+                                        </div>
+
+                                        <div class="bottom-text white-color">
+                                            <p class="m-0">
+                                                * Denotes mandatory field.
+                                            </p>
+                                            <p class="m-0">** At least one telephone number is required.</p>
+                                        </div>
+
+                                    </div>
+                                    <!-- rightside-content - end -->
+
+                                    <a class="popup-modal-dismiss" href="#!">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#alt-login-modal" class="login-modal-btn">
+                                Login
+                            </a>
+                            <div id="alt-login-modal" class="reglog-modal-wrapper mfp-hide clearfix" style="background-image: url({% static 'assets/images/login-modal-bg.jpg' %});">
+                                <div class="overlay-black clearfix">
+
+                                    <!-- leftside-content - start -->
+                                    <div class="leftside-content">
+                                        <div class="site-logo-wrapper mb-80">
+                                            <a href="{% url 'homepage' %}" class="logo">
+                                                <img src="{% static 'assets/images/logo.png' %}" alt="logo_not_found">
+                                            </a>
+                                        </div>
+                                        <div class="register-login-link mb-80">
+                                            <ul>
+                                                <li class="active"><a href="{% url 'login' %}">Login</a></li>
+                                                <li><a href="#">Register</a></li>
+                                            </ul>
+                                        </div>
+                                        
+                                    </div>
+                                    <!-- leftside-content - end -->
+
+                                    <!-- rightside-content - start -->
+                                    <div class="rightside-content text-center">
+
+                                        <div class="mb-30">
+                                            <h2 class="form-title title-large white-color">Account <strong>Login</strong></h2>
+                                            <span class="form-subtitle white-color">Login to our website, or <strong>REGISTER</strong></span>
+                                        </div>
+
+                                        <div class="fb-login-btn mb-30">
+                                            <a href="#!">
+                                                <span class="icon">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </span>
+                                                login with facebook
+                                            </a>
+                                        </div>
+
+                                        <div class="or-text mb-30">
+                                            <span>or sign in</span>
+                                        </div>
+
+                                        <div class="login-form text-center mb-50">
+                                            <form action="#!">
+                                                <div class="form-item">
+                                                    <input type="email" placeholder="example@gmail.com">
+                                                </div>
+                                                <div class="form-item">
+                                                    <input type="password" placeholder="Password">
+                                                </div>
+                                                <button type="submit" class="login-btn">login now</button>
+                                            </form>
+                                        </div>
+
+                                        <div class="bottom-text white-color">
+                                            <p class="m-0">
+                                                * Denotes mandatory field.
+                                            </p>
+                                            <p class="m-0">** At least one telephone number is required.</p>
+                                        </div>
+
+                                    </div>
+                                    <!-- rightside-content - end -->
+
+                                    <a class="popup-modal-dismiss" href="#!">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <!-- login-btn-group - end -->
+
+                <!-- social-links - start -->
+                <div class="social-links">
+                    <h2 class="menu-title">get in touch</h2>
+                    <div class="mb-15">
+                        <h3 class="contact-info">
+                            <i class="fas fa-phone"></i>
+                            100-2222-9999
+                        </h3>
+                        <h3 class="contact-info">
+                            <i class="fas fa-envelope"></i>
+                            info@Tickora.com
+                        </h3>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="#!"><i class="fab fa-facebook-f"></i></a>
+                        </li>
+                        <li>
+                            <a href="#!"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="#!"><i class="fab fa-twitch"></i></a>
+                        </li>
+                        <li>
+                            <a href="#!"><i class="fab fa-google-plus-g"></i></a>
+                        </li>
+                        <li>
+                            <a href="#!"><i class="fab fa-instagram"></i></a>
+                        </li>
+                    </ul>
+                    <a href="{% url 'contact' %}" class="contact-btn">contact us</a>
+                </div>
+                <!-- social-links - end -->
+
+                <div class="overlay"></div>
+            </div>
+        </div>
+        <!-- sidebar menu - end -->
+    </div>
+    <!-- altranative-header - end
+    ================================================== -->
+	
+        {% block content %}
+        
+        {% endblock content %}
+
+	{% include "footer.html" %}
+
+        
+        <!-- fraimwork - jquery include -->
+		<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+		<script src="{% static 'assets/js/popper.min.js' %}"></script>
+		<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+		<!-- carousel jquery include -->
+		<script src="{% static 'assets/js/slick.min.js' %}"></script>
+		<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+
+		<!-- map jquery include -->
+		{% comment %} <script src="{% static 'assets/js/gmap3.min.js' %}"></script> {% endcomment %}
+		{% comment %} <script src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d30769.320855232763!2d28.2877316!3d-15.421637599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1szambia%20website%20google%20maps%20link!5e0!3m2!1sen!2szm!4v1747990374133!5m2!1sen!2szm"></script>
+		<iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d30769.320855232763!2d28.2877316!3d-15.421637599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1szambia%20website%20google%20maps%20link!5e0!3m2!1sen!2szm!4v1747990374133!5m2!1sen!2szm" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> {% endcomment %}
+		<!-- calendar jquery include -->
+		<script src="{% static 'assets/js/atc.min.js' %}"></script>
+
+		<!-- others jquery include -->
+		<script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+		<script src="{% static 'assets/js/isotope.pkgd.min.js' %}"></script>
+		<script src="{% static 'assets/js/jarallax.min.js' %}"></script>
+		<script src="{% static 'assets/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+
+		<!-- gallery img loaded - jqury include -->
+		<script src="{% static 'assets/js/imagesloaded.pkgd.min.js' %}"></script>
+
+		<!-- multy count down - jqury include -->
+		<script src="{% static 'assets/js/jquery.countdown.js' %}"></script>
+
+		<!-- color panal - jqury include -->
+		<script src="{% static 'assets/js/style-switcher.js' %}"></script>
+
+		<!-- custom jquery include -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+
+		
+
+
+
+	</body>
+
+<!-- Mirrored from jthemes.net/themes/html/harmony-event/index-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 11 Jun 2024 07:53:24 GMT -->
+</html>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="d-flex flex-row justify-content-center align-items-center" style="min-height: 90vh;">
+        <div class="col-md-6">
+            <div class="bg-white shadow p-5">
+                <h4 class="font-large-fixed">Payment Status</h4>
+                <hr>
+                <div class="mb-4">
+                    <h5 class="font-large-fixed">Reference: <span class="font-weight-bold">{{ payment.reference }}</span></h5>
+                    <h5 class="font-large-fixed">Amount: <span class="font-weight-bold">ZMK {{ payment.amount }}</span></h5>
+                    <h5 class="font-large-fixed">Transaction ID: <span class="font-weight-bold">{{ payment.transaction_id }}</span></h5>
+                    <h5 class="font-large-fixed">Status: <span class="font-weight-bold">{{ payment.status }}</span></h5>
+                    {% if message %}
+                        <p class="font-large-fixed">Message: <span class="font-weight-bold">{{ message }}</span></p>
+                    {% endif %}
+                </div>
+                <a href="{% url 'make_payment' payment.reference %}" class="btn btn-primary">Back to Payment</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Tickoraet - Payment</title>
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+   <style>
+      :root {
+         --primary: #ff3e00;
+         --secondary: #6c757d;
+         --light: #f8f9fa;
+         --dark: #343a40;
+         --border-radius: 8px;
+         --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+      
+      body {
+         font-family: 'Roboto', sans-serif;
+         background-color: #f5f7fa;
+         color: #333;
+         margin: 0;
+         padding: 0;
+         line-height: 1.6;
+      }
+
+      .dump {
+         max-width: 1200px;
+         margin: 40px auto;
+         padding: 0 20px;
+      }
+
+      /* Stepper Styles */
+      .stepper {
+         display: flex;
+         justify-content: space-between;
+         margin-bottom: 3rem;
+         position: relative;
+         counter-reset: step;
+      }
+
+      .stepper-progress-bar {
+         position: absolute;
+         height: 4px;
+         background-color: #e9ecef;
+         top: 20px;
+         left: 0;
+         right: 0;
+         z-index: 1;
+      }
+
+      .stepper-progress-bar::after {
+         content: '';
+         position: absolute;
+         height: 4px;
+         background-color: var(--primary);
+         width: 50%;
+         top: 0;
+         left: 0;
+      }
+
+      .stepper-item {
+         text-align: center;
+         position: relative;
+         z-index: 2;
+         flex: 1;
+      }
+
+      .stepper-item-counter {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         width: 44px;
+         height: 44px;
+         background-color: #fff;
+         border: 3px solid #e9ecef;
+         color: var(--secondary);
+         border-radius: 50%;
+         font-weight: 700;
+         margin: 0 auto 0.5rem;
+         transition: all 0.3s ease;
+      }
+
+      .stepper-item.success .stepper-item-counter {
+         background-color: var(--primary);
+         border-color: var(--primary);
+         color: white;
+      }
+
+      .stepper-item.current .stepper-item-counter {
+         border-color: var(--primary);
+      }
+
+      .stepper-item-title {
+         font-weight: 500;
+         color: var(--secondary);
+         font-size: 0.95rem;
+      }
+
+      .stepper-item.success .stepper-item-title,
+      .stepper-item.current .stepper-item-title {
+         color: var(--dark);
+         font-weight: 600;
+      }
+
+      /* Main Content Layout */
+      .row {
+         display: flex;
+         gap: 30px;
+         flex-wrap: wrap;
+      }
+
+      .col-md-8 {
+         flex: 2;
+         min-width: 0;
+      }
+
+      .col-md-4 {
+         flex: 1;
+         min-width: 300px;
+      }
+
+      /* Card Styles */
+      .v-card {
+         background: #fff;
+         border-radius: var(--border-radius);
+         box-shadow: var(--box-shadow);
+         padding: 25px;
+         height: 100%;
+      }
+
+      .checkout-summary {
+         background-color: #fff;
+         border-radius: var(--border-radius);
+         box-shadow: var(--box-shadow);
+         padding: 25px;
+         height: 100%;
+      }
+
+      .checkout-summary h3 {
+         margin: 0 0 25px 0;
+         font-size: 1.5rem;
+         font-weight: 700;
+         color: var(--dark);
+      }
+
+      hr {
+         border: none;
+         height: 1px;
+         background-color: #e9ecef;
+         margin: 20px 0;
+      }
+
+      /* Event Details Section */
+      .event-details {
+         margin-bottom: 20px;
+      }
+
+      .event-title {
+         font-size: 1.1rem;
+         font-weight: 600;
+         margin-bottom: 15px;
+         color: var(--dark);
+      }
+
+      .event-content {
+         display: flex;
+         gap: 20px;
+      }
+
+      .event-image {
+         flex-shrink: 0;
+         width: 120px;
+         height: 120px;
+         border-radius: var(--border-radius);
+         overflow: hidden;
+         background: #f8f9fa;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+      }
+
+      .event-image img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+      }
+
+      .event-meta {
+         flex-grow: 1;
+      }
+
+      .meta-item {
+         display: flex;
+         margin-bottom: 10px;
+      }
+
+      .meta-label {
+         font-weight: 500;
+         color: var(--dark);
+         min-width: 100px;
+      }
+
+      .meta-value {
+         color: var(--secondary);
+      }
+
+      /* Order Summary */
+      .order-row {
+         display: flex;
+         justify-content: space-between;
+         margin-bottom: 12px;
+      }
+
+      .order-label {
+         color: var(--secondary);
+      }
+
+      .order-value {
+         font-weight: 500;
+      }
+
+      .order-total {
+         font-size: 1.2rem;
+         font-weight: 700;
+         color: var(--dark);
+         padding-top: 10px;
+         border-top: 1px solid #e9ecef;
+         margin-top: 15px;
+      }
+
+      /* Iframe Styles */
+      iframe {
+         width: 100%;
+         height: 600px;
+         border: none;
+         border-radius: var(--border-radius);
+         background: white;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+         .dump {
+            margin: 20px;
+            padding: 0;
+         }
+         
+         .row {
+            flex-direction: column;
+         }
+         
+         .event-content {
+            flex-direction: column;
+         }
+         
+         .event-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            margin-bottom: 15px;
+         }
+      }
+   </style>
+</head>
+<body>
+   <div class="dump">
+      <div class="stepper">
+         <div class="stepper-progress-bar"></div>
+         <div class="stepper-item success">
+            <div class="stepper-item-counter">1</div>
+            <span class="stepper-item-title">Pick an event</span>
+         </div>
+         <div class="stepper-item current">
+            <div class="stepper-item-counter">2</div>
+            <span class="stepper-item-title">Make Payment</span>
+         </div>
+         <div class="stepper-item">
+            <div class="stepper-item-counter">3</div>
+            <span class="stepper-item-title">Confirmation</span>
+         </div>
+      </div>
+   
+      <div class="row">
+         <div class="col-md-8">
+            <div class="v-card">
+               <iframe src="{{ iframe_url }}" scrolling="yes"></iframe>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="checkout-summary">
+                <h3>Order Summary</h3>
+                <hr>
+                {% if order %}
+                <div class="event-details">
+                    <div class="event-title">Payment for: {{ order.event.event_name }}</div>
+                    <div class="event-content">
+                        <div class="event-image">
+                            {% if order.event.image %}
+                            <img src="{{ order.event.image.url }}" alt="{{ order.event.event_name }}">
+                            {% else %}
+                            <div style="padding: 20px; text-align: center; color: #6c757d;">
+                                No image available
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Start Date:</span>
+                                <span class="meta-value">{{ order.event.date_and_time|date:"M j, Y H:i" }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Order Date:</span>
+                                <span class="meta-value">{{ order.order_date|date:"M j, Y H:i" }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Ticket Type:</span>
+                                <span class="meta-value">{{ order.ticket_type }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="order-row">
+                    <span class="order-label">{{ order.quantity }} x {{ order.ticket_type }}</span>
+                    <span class="order-value">ZMW {{ order.total_price }}</span>
+                </div>
+                <div class="order-row order-total">
+                    <span>Amount to pay:</span>
+                    <span>ZMW {{ order.total_price }}</span>
+                </div>
+                {% else %}
+                <p>No order details available.</p>
+                {% endif %}
+            </div>
+        </div>
+      </div>
+   </div>
+   <script>
+      // Listen for messages from PesaPal iframe
+      window.addEventListener('message', function(e) {
+          if (e.data === 'pesapal_payment_completed') {
+              // Redirect to confirmation page
+              window.location.href = "{% url 'payment_success' order.ticket_id %}";
+          } else if (e.data === 'pesapal_payment_failed') {
+              window.location.href = "{% url 'payment_failed' order.ticket_id %}";
+          }
+      });
+   </script>
+</body>
+</html>

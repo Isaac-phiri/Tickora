@@ -1,0 +1,135 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tickora - Registration</title>
+    <link rel="shortcut icon" href="{% static 'statics/images/fav1.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- MATERIAL DESIGN ICONIC FONT -->
+    <link rel="stylesheet" href="{% static 'statics/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css' %}">
+    
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="{% static 'statics/css/styles.css' %}">
+    
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="split-container">
+            <!-- Left Side - Registration Form -->
+            <div class="form-side">
+                <a href="{% url 'homepage' %}" class="logo">
+                    <img src="{% static 'assets/images/logo.png' %}" alt="logo_not_found">
+                </a>
+
+                <form class="form" method="POST" autocomplete="off" action="{% url 'signup' %}">
+                    {% csrf_token %}
+                    <h3>Registration Form</h3>
+                    
+                    <div class="form-group">
+                        <div class="form-wrapper input-with-icon">
+                            <i class="zmdi zmdi-account"></i>
+                            <label for="first_name">First Name</label>
+                            <input type="text" name="first_name" id="first_name" required class="form-control" placeholder="Enter your first name">
+                        </div>
+                        <div class="form-wrapper input-with-icon">
+                            <i class="zmdi zmdi-account"></i>
+                            <label for="last_name">Last Name</label>
+                            <input type="text" name="last_name" id="last_name"  class="form-control" placeholder="Enter your last name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-wrapper input-with-icon">
+                        <i class="zmdi zmdi-email"></i>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" autocomplete="off" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-wrapper input-with-icon">
+                        <i class="zmdi zmdi-lock"></i>
+                        <label for="password1">Password</label>
+                        <input type="password" name="password1" id="password1" class="form-control" autocomplete="new-password" placeholder="Create password" required>
+                    </div>
+                    
+                    <div class="form-wrapper input-with-icon">
+                        <i class="zmdi zmdi-lock"></i>
+                        <label for="password2">Confirm Password</label>
+                        <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirm password" required>
+                        <div id="password-match-message"></div>
+                    </div>
+                    
+                    <div class="form_bottom">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="terms" name="terms"> I accept the Terms of Use & Privacy Policy.
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <label class="que">
+                            You have an account?
+                            <a href="{% url 'login' %}">Login</a>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="register-button">Register Now</button>
+                </form>
+            </div>
+            
+            <!-- Right Side - Image -->
+            <div class="image-side" style="background-image: url('{% static "statics/images/login2.png" %}')">
+                <div class="image-overlay"></div>
+                <div class="image-content">
+                    <h2>Welcome to Tickora</h2>
+                    <p>Your professional ticketing solution</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password match validation
+        const password1 = document.getElementById('password1');
+        const password2 = document.getElementById('password2');
+        const message = document.getElementById('password-match-message');
+        
+        function validatePassword() {
+            if(password1.value !== password2.value) {
+                message.innerHTML = "Passwords don't match!";
+                message.className = "invalid";
+            } else {
+                message.innerHTML = "Passwords match!";
+                message.className = "valid";
+            }
+            
+            if(password2.value === "") {
+                message.innerHTML = "";
+            }
+        }
+        
+        password1.onchange = validatePassword;
+        password2.onkeyup = validatePassword;
+        
+        // Form submission validation
+        document.querySelector('.form').addEventListener('submit', function(e) {
+            const terms = document.getElementById('terms');
+            if(!terms.checked) {
+                e.preventDefault();
+                alert('Please accept the Terms of Use & Privacy Policy');
+            }
+            
+            if(password1.value !== password2.value) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Tickets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+        }
+        .event-details, .order-summary {
+            margin-top: 20px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Tickets for {{ order.event.event_name }}</h1>
+        <p>Dear {{ order.customer.first_name }},</p>
+        <p>Thank you for your purchase! Below are the details of your order:</p>
+
+        <div class="event-details">
+            <h2>Event Details</h2>
+            <p><strong>Event Name:</strong> {{ order.event.event_name }}</p>
+            <p><strong>Date & Time:</strong> {{ order.event.date_and_time }}</p>
+            <p><strong>Venue:</strong> {{ order.event.venue }}</p>
+        </div>
+
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <p><strong>Ticket Type:</strong> {{ order.ticket_type }}</p>
+            <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+            <p><strong>Total Price:</strong> {{ order.total_price }}</p>
+        </div>
+
+        <p>Please show this email at the event entrance.</p>
+        <p>If you have any questions, feel free to contact us at support@Tickora.com.</p>
+        <p>Thank you for choosing Tickora!</p>
+    </div>
+</body>
+</html>
