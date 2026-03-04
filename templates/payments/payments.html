@@ -292,11 +292,11 @@
                 <hr>
                 {% if order %}
                 <div class="event-details">
-                    <div class="event-title">Payment for: {{ order.event.event_name }}</div>
+                    <div class="event-title">Payment for: {{ order.event.title }}</div>  <!-- FIXED: event_name → title -->
                     <div class="event-content">
                         <div class="event-image">
-                            {% if order.event.image %}
-                            <img src="{{ order.event.image.url }}" alt="{{ order.event.event_name }}">
+                            {% if order.event.banner_image %}  <!-- FIXED: image → banner_image -->
+                            <img src="{{ order.event.banner_image.url }}" alt="{{ order.event.title }}">
                             {% else %}
                             <div style="padding: 20px; text-align: center; color: #6c757d;">
                                 No image available
@@ -306,7 +306,7 @@
                         <div class="event-meta">
                             <div class="meta-item">
                                 <span class="meta-label">Start Date:</span>
-                                <span class="meta-value">{{ order.event.date_and_time|date:"M j, Y H:i" }}</span>
+                                <span class="meta-value">{{ order.event.start_date|date:"M j, Y H:i" }}</span>  <!-- FIXED: date_and_time → start_date -->
                             </div>
                             <div class="meta-item">
                                 <span class="meta-label">Order Date:</span>
@@ -314,19 +314,25 @@
                             </div>
                             <div class="meta-item">
                                 <span class="meta-label">Ticket Type:</span>
-                                <span class="meta-value">{{ order.ticket_type }}</span>
+                                <span class="meta-value">
+                                    {% with order.order_items.first as order_item %}
+                                        {{ order_item.ticket_type.name|default:"Standard" }}
+                                    {% endwith %}
+                                </span>  <!-- FIXED: order.ticket_type → through order_items -->
                             </div>
                         </div>
                     </div>
                 </div>
                 <hr>
+                {% with order.order_items.first as order_item %}
                 <div class="order-row">
-                    <span class="order-label">{{ order.quantity }} x {{ order.ticket_type }}</span>
-                    <span class="order-value">ZMW {{ order.total_price }}</span>
+                    <span class="order-label">{{ order_item.quantity|default:1 }} x {{ order_item.ticket_type.name|default:"Ticket" }}</span>  <!-- FIXED: order.quantity → order_item.quantity -->
+                    <span class="order-value">ZMW {{ order.total_amount }}</span>  <!-- FIXED: total_price → total_amount -->
                 </div>
+                {% endwith %}
                 <div class="order-row order-total">
                     <span>Amount to pay:</span>
-                    <span>ZMW {{ order.total_price }}</span>
+                    <span>ZMW {{ order.total_amount }}</span>  <!-- FIXED: total_price → total_amount -->
                 </div>
                 {% else %}
                 <p>No order details available.</p>
@@ -339,10 +345,35 @@
       // Listen for messages from PesaPal iframe
       window.addEventListener('message', function(e) {
           if (e.data === 'pesapal_payment_completed') {
-              // Redirect to confirmation page
-              window.location.href = "{% url 'payment_success' order.ticket_id %}";
+              // Redirect to callback with tracking ID
+              window.location.href = "{% url 'payments:payment_callback' %}?OrderTrackingId={{ tracking_id }}&OrderMerchantReference={{ order.id }}";
           } else if (e.data === 'pesapal_payment_failed') {
-              window.location.href = "{% url 'payment_failed' order.ticket_id %}";
+              // Redirect back to payment page with error
+              window.location.href = "{% url 'payments:payment_page' order.id %}?error=failed";
+          }
+      });
+
+      // Also handle iframe URL changes (for PesaPal redirects)
+      window.addEventListener('load', function() {
+          const iframe = document.querySelector('iframe');
+          if (iframe) {
+              let currentUrl = iframe.src;
+              setInterval(function() {
+                  try {
+                      if (iframe.contentWindow.location.href !== currentUrl) {
+                          currentUrl = iframe.contentWindow.location.href;
+                          
+                          // Check if we're on a success/failure page
+                          if (currentUrl.includes('payment_success') || currentUrl.includes('pesapal.com/success')) {
+                              window.location.href = "{% url 'payments:payment_callback' %}?OrderTrackingId={{ tracking_id }}&OrderMerchantReference={{ order.id }}";
+                          } else if (currentUrl.includes('payment_failed') || currentUrl.includes('pesapal.com/fail')) {
+                              window.location.href = "{% url 'payments:payment_page' order.id %}?error=failed";
+                          }
+                      }
+                  } catch(e) {
+                      // Cross-origin error - ignore
+                  }
+              }, 1000);
           }
       });
    </script>

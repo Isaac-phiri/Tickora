@@ -114,6 +114,10 @@ class Event(BaseModel):
     def __str__(self):
         return f"{self.title} - {self.start_date.strftime('%Y-%m-%d')}"
     
+    @classmethod
+    def get_latest_events(cls, limit=5):
+        return cls.objects.filter(status='Active').order_by('-created_at')[:limit]
+    
     def clean(self):
         if self.end_date <= self.start_date:
             raise ValidationError('End date must be after start date')

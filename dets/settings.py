@@ -38,6 +38,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
+    '6948-102-212-181-120.ngrok-free.app',
     'Tickora.pythonanywhere.com'
 ]
 
@@ -46,15 +47,16 @@ PESAPAL_CONSUMER_SECRET = config('PESAPAL_CONSUMER_SECRET')  # Fixed typo
 PESAPAL_ENV = "sandbox"  # or "live"
 
 # Use HTTPS for both URLs
-PESAPAL_CALLBACK_URL = "https://dc37-102-221-242-144.ngrok-free.app/payment/callback/"
-PESAPAL_IPN_URL = "https://dc37-102-221-242-144.ngrok-free.app/payment/ipn/"
+PESAPAL_CALLBACK_URL = config('PESAPAL_CALLBACK_URL')
+PESAPAL_IPN_URL = config('PESAPAL_IPN_URL')
+PESAPAL_IPN_ID = config('PESAPAL_IPN_ID')
 
 # Security settings for ngrok
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = [
-    'https://dc37-102-221-242-144.ngrok-free.app',
+    'https://6948-102-212-181-120.ngrok-free.app',
     'https://*.ngrok-free.app'
 ]
 # Application definition
@@ -188,7 +190,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
-
+# Stripe
+STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
 
 
 

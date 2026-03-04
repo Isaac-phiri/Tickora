@@ -11,6 +11,9 @@ from django.core.files.base import ContentFile
 from django.db.models import Q, Sum, F
 from django.core.exceptions import ValidationError
 
+def generate_order_number():
+    return f"ORD-{uuid.uuid4().hex[:12].upper()}"
+
 class Order(BaseModel):
     """
     Order model representing a customer's purchase transaction
@@ -38,7 +41,7 @@ class Order(BaseModel):
         max_length=50, 
         unique=True, 
         db_index=True,
-        default=uuid.uuid4().hex[:12].upper()
+        default=generate_order_number
     )
     
     # Customer Information
@@ -49,7 +52,7 @@ class Order(BaseModel):
         related_name='orders'
     )
     email = models.EmailField(db_index=True)
-    phone_number = models.CharField(max_length=20)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
     
     # Guest checkout support
     is_guest_checkout = models.BooleanField(default=False)
@@ -126,6 +129,9 @@ class Order(BaseModel):
         return f"Order {self.order_number} - {self.email}"
     
     def save(self, *args, **kwargs):
+        if not self.order_number:
+            self.order_number = generate_order_number()
+
         if not self.expiry_date:
             self.expiry_date = timezone.now() + timezone.timedelta(minutes=30)
         super().save(*args, **kwargs)

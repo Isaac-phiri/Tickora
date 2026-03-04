@@ -1,372 +1,767 @@
 {% extends 'front_base.html' %}
 {% load static %}
 
-
-
 {% block content %}	
-<style>/* Ticket Options */
-	/* Ticket Options */
-.ticket-options {
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #f8f9fa;
-}
-
-.ticket-option-item {
-    margin-bottom: 20px;
-}
-
-.ticket-option-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.ticket-option-details {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 5px;
-}
-
-.ticket-option-price {
-    font-size: 16px;
-    font-weight: bold;
-    color: #007bff;
-}
-
-.ticket-quantity {
-    width: 60px;
-    padding: 5px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    text-align: center;
-}
-
-/* Total Price Section */
-.total-price-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    margin-top: 20px;
-}
-
-.total-price-label {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.total-price-amount {
-    font-size: 18px;
-    font-weight: bold;
-    color: #007bff;
-}
-
-/* User Details Form */
-.user-details-form {
-    margin-top: 20px;
-}
-
-.form-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 50px;
-	text-align: center;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.custom-button{
-    width: 100%;
-    padding: 10px;
-    background-color: #f86262;
-    color: white;
-    border: none;
-    border-radius: 5px;
-	text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.custom-btn:hover {
-    background-color: #0056b3;
-}
-.header-leftside-content{
-	font-size: 1.1rem;
-}
-
-</style>
-<!-- breadcrumb-section - start
-		================================================== -->
-		<section id="breadcrumb-section" class="breadcrumb-section clearfix">
-			<div class="jarallax" style="background-image: url({% static 'assets/images/breadcrumb/0.breadcrumb-bg.jpg' %});">
-				<div class="overlay-black">
-					<div class="container">
-						<div class="row justify-content-center">
-							<div class="col-lg-6 col-md-12 col-sm-12">
-
-								<!-- breadcrumb-title - start -->
-								<div class="breadcrumb-title text-center mb-50">
-									<span class="sub-title">event single</span>
-									<h2 class="big-title">Tickora <strong>event details</strong></h2>
-								</div>
-								<!-- breadcrumb-title - end -->
-
-								<!-- breadcrumb-list - start -->
-								<div class="breadcrumb-list">
-									<ul>
-										<li class="breadcrumb-item"><a href="{% url 'homepage' %}" class="breadcrumb-link">Home</a></li>
-										<li class="breadcrumb-item"><a href="{% url 'event-list' %}" class="breadcrumb-link">Events</a></li>
-										<li class="breadcrumb-item active" aria-current="page">{{event.event_name|truncatechars:9 }}</li>
-									</ul>
-								</div>
-								<!-- breadcrumb-list - end -->
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- breadcrumb-section - end
-		================================================== -->
-
-
-
-
-
-		<!-- event-details-section - start
-		================================================== -->
-		<section id="event-details-section" class="event-details-section sec-ptb-100 clearfix">
-			<div class="container">
-				<div class="row">
-
-					<!-- col - event-details - start -->
-					<div class="col-lg-6 col-md-12 col-sm-12">
-
-						<!-- event-details - start -->
-						<div class="event-details mb-80">
-
-							<div class="event-title mb-30">
-								<span class="tag-item">
-									<i class="fas fa-bookmark"></i>
-									Featured Event
-								</span>
-								<h2 class="event-title"><strong>{{ event.event_name|truncatechars:30}}</strong></h2>
-							</div>
-
-							<div id="event-details-carousel" class="event-details-carousel owl-carousel owl-theme">
-								<div class="item">
-									<img class="event-image" src="{{ event.image.url }}" alt="Image_not_found">
-								</div>
-							</div>
-							
-
-							<h3 style="font-weight: bold;">Host</h3>
-							<p class="black-color mb-4">
-								Zamkiid
-							</p>
-
-							<h3 style="
-								font-weight: bold;
-							">Description</h3>
-							<p class="black-color m-0">
-								{{event.description}}
-							</p>
-
-							<h3 class="mt-4" style="font-weight: bold;">Dates</h3>
-							<p class="black-color  mt-4">
-								{{ event.date_and_time|date:"d F Y" }} {{ event.date_and_time|date:"H:i A" }}
-							</p>
-
-							<h3 style="font-weight: bold;">Photos</h3>
-							<p class="black-color mb-4">
-								Zamkiid
-							</p>
-
-							<h3 style="font-weight: bold;">Location</h3>
-							<p class="black-color mb-4">
-								{{ event.venue }}
-							</p>
-
-							<h3 style="font-weight: bold;">Map</h3>
-						</div>
-						<!-- map-wrapper - start -->
-						<div class="map-wrapper mb-30">
-
-							<!-- section-title - start -->
-							<div class="section-title mb-30">
-								<h2 class="big-title">event <strong>location</strong></h2>
-							</div>
-							<!-- section-title - end -->
-
-							<!-- Embedded Google Map - Start -->
-							<div id="google-map">
-								<iframe
-									src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d30769.320855232763!2d28.2877316!3d-15.421637599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1szambia%20website%20google%20maps%20link!5e0!3m2!1sen!2szm!4v1747990944446!5m2!1sen!2szm"
-									width="1200" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-									referrerpolicy="no-referrer-when-downgrade">
-								</iframe>
-							</div>
-							<!-- Embedded Google Map - End -->
-
-						</div>
-						<!-- map-wrapper - end -->
-						<!-- event-details - end -->
-
-						
-
-						<script>
-							function updateTotalPrice() {
-							const quantity = document.getElementById('quantity').value;
-							const price = {{ event.price }};
-							document.getElementById('total-price').textContent = (quantity * price).toFixed(2);
-							}
-						</script>
-
-					</div>
-					<!-- col - event-details - end -->
-
-					<!-- sidebar-section - start -->
-					<div class="col-lg-6 col-md-12 col-sm-12">
-						<div class="register-wrapper mb-70 clearfix">
-							<div class="section-title text-left mb-50" style="margin-top: 10px; padding-top: 20px; margin-bottom: 30px;">
-								<span class="line-style"></span>
-								<h2 class="big-title"><strong>Buy a Ticket</strong></h2>
-							</div>
-					
-							<div class="register-table">
-								<ul>
-									<!-- Header -->
-									<li class="rt-header mb-4">
-										<div class="header-leftside-content">
-											<strong>{{ event.event_name }}</strong> {{ event.date_and_time|date:"d F Y" }}
-										</div>
-									</li>
-					
-									<!-- Body -->
-									<li class="rt-body">
-										<div class="ticket-description mb-30">
-											<p>Kindly indicate how many tickets you would like.</p>
-										</div>
-										
-										<form method="POST" action="{% url 'event_booking' event.id %}">
-											{% csrf_token %}
-											
-											<label for="ticket_type">Ticket Type</label>
-											<select name="ticket_type" id="ticket_type" class="form-control">
-												{% for ticket_type in ticket_types %}
-													<option>{{ ticket_type }}</option>
-												{% endfor %}
-											</select>
-
-											<!-- Ticket Options -->
-											<div class="ticket-options mb-30">
-												<!-- Single Ticket -->
-												<div class="ticket-option-item mb-20">
-													<div class="row align-items-center">
-														<!-- First Column: Ticket Title and Details -->
-														<div class="col-md-6">
-															<h4 class="ticket-option-title">{{event.event_name}}</h4>
-															<p class="ticket-option-details">{{event.date_and_time}}</p>
-														</div>
-														<!-- Second Column: Price -->
-														<div class="col-md-3 text-center">
-															<p class="ticket-option-price">K {{event.price}}</p>
-														</div>
-														<!-- Third Column: Quantity Input -->
-														<div class="col-md-3 text-right">
-															<input type="number" id="quantity" name="quantity" min="1" max="{{ event.tickets_available }}" value="1" onchange="updateTotalPrice()" class="form-control">
-														</div>
-													</div>
-												</div>
-											</div>
-
-											<!-- Total Price -->
-											<div class="total-price-section mb-30">
-												<span class="total-price-label">Total Price:</span>
-												<span class="total-price-amount">K <span id="total-price">{{event.price}}</span></span>
-											</div>
-
-											<!-- User Details Form - Only show if user is not authenticated -->
-											{% if not user.is_authenticated %}
-											<div class="user-details-form">
-												<h4 class="form-title">Enter Your Details</h4>
-												<div class="form-group">
-													<label for="full_name">Full Name:</label>
-													<input type="text" name="full_name" id="full_name" placeholder="Full Name" class="form-control" required>
-												</div>
-
-												<!-- Email -->
-												<div class="form-group">
-													<label for="email">Email:</label>
-													<input type="email" name="email" id="email" placeholder="Email Address" class="form-control" required>
-												</div>
-
-												<!-- Phone Number -->
-												<div class="form-group">
-													<label for="phone_number">Phone Number:</label>
-													<input type="tel" name="phone_number" id="phone_number" placeholder="Phone Number" class="form-control" required>
-												</div>
-											</div>
-											{% endif %}
-
-											<!-- Submit Button -->
-											<div class="form-group">
-												<button type="submit" class="custom-button">Buy A Ticket</button>
-											</div>
-										</form>
-										
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<!-- sidebar-section - end -->	
-				</div>
-			</div>
-		</section>
-		<!-- event-details-section - end
-		================================================== -->
-			 
-
-
-
-<script>
-    function updateTotalPrice() {
-        // Get quantities
-        var singleTicketQuantity = document.querySelector('input[name="single_ticket_quantity"]').value;
-        var coupleTicketQuantity = document.querySelector('input[name="couple_ticket_quantity"]').value;
-
-        // Prices
-        var singleTicketPrice = 15000;
-        var coupleTicketPrice = 30000;
-
-        // Calculate total price
-        var totalPrice = (singleTicketQuantity * singleTicketPrice) + ( * coupleTicketPrice);
-
-        // Update total price display
-        document.getElementById('total-price').innerText = totalPrice.toLocaleString();
+<style>
+    /* Ticket Options */
+    .ticket-options {
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f8f9fa;
     }
 
-    // Attach event listeners to quantity inputs
-    document.querySelectorAll('.ticket-quantity').forEach(input => {
-        input.addEventListener('change', updateTotalPrice);
+    .ticket-option-item {
+        margin-bottom: 20px;
+        padding: 15px;
+        border-bottom: 1px solid #eaeaea;
+    }
+    
+    .ticket-option-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .ticket-option-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .ticket-option-details {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .ticket-option-price {
+        font-size: 20px;
+        font-weight: bold;
+        color: #f86262;
+        margin: 0;
+    }
+    
+    .ticket-option-remaining {
+        font-size: 12px;
+        color: #28a745;
+        margin-top: 5px;
+    }
+    
+    .ticket-option-remaining.warning {
+        color: #ffc107;
+    }
+    
+    .ticket-option-remaining.danger {
+        color: #dc3545;
+    }
+
+    .ticket-quantity {
+        width: 80px;
+        padding: 8px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    /* Total Price Section */
+    .total-price-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        margin-top: 20px;
+        color: white;
+    }
+
+    .total-price-label {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .total-price-amount {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    /* User Details Form */
+    .user-details-form {
+        margin-top: 30px;
+        padding: 25px;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .form-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #f86262;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(248, 98, 98, 0.1);
+    }
+
+    .custom-button {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #f86262 0%, #e64a4a 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .custom-button:hover {
+        background: linear-gradient(135deg, #e64a4a 0%, #d63030 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(248, 98, 98, 0.3);
+    }
+    
+    .custom-button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .header-leftside-content {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    /* Event Image */
+    .event-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    /* Host Info */
+    .host-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .host-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 15px;
+        object-fit: cover;
+    }
+    
+    .host-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .host-email {
+        color: #666;
+        font-size: 14px;
+    }
+    
+    /* Photo Gallery */
+    .photo-gallery {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .gallery-item {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover {
+        transform: scale(1.05);
+    }
+    
+    /* Map */
+    .map-wrapper {
+        margin-top: 30px;
+    }
+    
+    #google-map iframe {
+        width: 100%;
+        height: 350px;
+        border-radius: 10px;
+    }
+    
+    /* Alert Messages */
+    .alert {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .alert-danger {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+    }
+    
+    .alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+    }
+    
+    .alert-warning {
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        color: #856404;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .event-image {
+            height: 250px;
+        }
+        
+        .ticket-option-item .row {
+            flex-direction: column;
+        }
+        
+        .ticket-option-item .col-md-3 {
+            margin-top: 10px;
+            text-align: left !important;
+        }
+        
+        .photo-gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+
+<!-- breadcrumb-section - start -->
+<section id="breadcrumb-section" class="breadcrumb-section clearfix">
+    <div class="jarallax" style="background-image: url({% static 'assets/images/breadcrumb/0.breadcrumb-bg.jpg' %});">
+        <div class="overlay-black">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+
+                        <!-- breadcrumb-title - start -->
+                        <div class="breadcrumb-title text-center mb-50">
+                            <span class="sub-title">event single</span>
+                            <h2 class="big-title">Tickora <strong>event details</strong></h2>
+                        </div>
+                        <!-- breadcrumb-title - end -->
+
+                        <!-- breadcrumb-list - start -->
+                        <div class="breadcrumb-list">
+                            <ul>
+                                <li class="breadcrumb-item"><a href="{% url 'homepage' %}" class="breadcrumb-link">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'event-list' %}" class="breadcrumb-link">Events</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ event.title|truncatechars:20 }}</li>
+                            </ul>
+                        </div>
+                        <!-- breadcrumb-list - end -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb-section - end -->
+
+<!-- event-details-section - start -->
+<section id="event-details-section" class="event-details-section sec-ptb-100 clearfix">
+    <div class="container">
+        <!-- Display messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <div class="row">
+
+            <!-- col - event-details - start -->
+            <div class="col-lg-6 col-md-12 col-sm-12">
+
+                <!-- event-details - start -->
+                <div class="event-details mb-80">
+
+                    <div class="event-title mb-30">
+                        <span class="tag-item">
+                            <i class="fas fa-bookmark"></i>
+                            {% if event.is_featured %}Featured Event{% else %}Event{% endif %}
+                        </span>
+                        <h2 class="event-title"><strong>{{ event.title }}</strong></h2>
+                    </div>
+
+                    <div id="event-details-carousel" class="event-details-carousel owl-carousel owl-theme">
+                        <div class="item">
+                            {% if event.banner_image %}
+                                <img class="event-image" src="{{ event.banner_image.url }}" alt="{{ event.title }}">
+                            {% elif event.thumbnail_image %}
+                                <img class="event-image" src="{{ event.thumbnail_image.url }}" alt="{{ event.title }}">
+                            {% else %}
+                                <img class="event-image" src="{% static 'assets/images/event-placeholder.jpg' %}" alt="Event image">
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Host Information -->
+                    <h3 style="font-weight: bold;">Host</h3>
+                    <div class="host-info">
+                        {% if event.organizer.profile_picture %}
+                            <img src="{{ event.organizer.profile_picture.url }}" alt="{{ event.organizer.get_full_name }}" class="host-avatar">
+                        {% else %}
+                            <div class="host-avatar bg-primary text-white d-flex align-items-center justify-content-center">
+                                <i class="fas fa-user fa-2x"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <div class="host-name">{{ event.organizer.get_full_name }}</div>
+                            <div class="host-email">{{ event.organizer.email }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <h3 style="font-weight: bold;">Description</h3>
+                    <p class="black-color m-0">
+                        {{ event.description|linebreaks }}
+                    </p>
+
+                    <!-- Dates -->
+                    <h3 class="mt-4" style="font-weight: bold;">Date & Time</h3>
+                    <p class="black-color mt-2">
+                        <i class="far fa-calendar-alt mr-2"></i> {{ event.start_date|date:"l, d F Y" }}<br>
+                        <i class="far fa-clock mr-2"></i> {{ event.start_date|date:"H:i A" }} - {{ event.end_date|date:"H:i A" }}
+                    </p>
+                    
+                    {% if event.door_open_time %}
+                        <p class="text-muted">
+                            <i class="fas fa-door-open mr-2"></i> Doors open at {{ event.door_open_time|time:"H:i A" }}
+                        </p>
+                    {% endif %}
+
+                    <!-- Location -->
+                    <h3 style="font-weight: bold;">Location</h3>
+                    <p class="black-color mb-2">
+                        <i class="fas fa-map-marker-alt mr-2"></i> {{ event.venue_name }}<br>
+                        {{ event.address_line1 }}{% if event.address_line2 %}, {{ event.address_line2 }}{% endif %}<br>
+                        {{ event.city }}, {{ event.state }} {{ event.postal_code }}<br>
+                        {{ event.country }}
+                    </p>
+                    
+                    {% if event.venue_type == 'virtual' or event.venue_type == 'hybrid' %}
+                        <p class="text-info">
+                            <i class="fas fa-video mr-2"></i> 
+                            {% if event.virtual_meeting_url %}
+                                Virtual Access: <a href="{{ event.virtual_meeting_url }}" target="_blank">{{ event.virtual_meeting_url }}</a>
+                                {% if event.virtual_meeting_password %}
+                                    <br><small>Password: {{ event.virtual_meeting_password }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </p>
+                    {% endif %}
+
+                    <!-- Map -->
+                    <h3 style="font-weight: bold;">Map</h3>
+                    <!-- map-wrapper - start -->
+                    <div class="map-wrapper mb-30">
+
+                        <!-- section-title - start -->
+                        <div class="section-title mb-30">
+                            <h2 class="big-title">event <strong>location</strong></h2>
+                        </div>
+                        <!-- section-title - end -->
+
+                        <!-- Embedded Google Map - Start -->
+                        <div id="google-map">
+                            <iframe
+                                src="https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q={{ event.venue_name }},{{ event.city }},{{ event.country }}"
+                                width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy">
+                            </iframe>
+                        </div>
+                        <!-- Embedded Google Map - End -->
+
+                    </div>
+                    <!-- map-wrapper - end -->
+                    
+                    <!-- Co-organizers (if any) -->
+                    {% if event.co_organizers.all %}
+                        <h3 style="font-weight: bold;">Co-Organizers</h3>
+                        <div class="co-organizers mb-4">
+                            {% for co_organizer in event.co_organizers.all %}
+                                <span class="badge badge-secondary mr-2">{{ co_organizer.get_full_name }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Tags -->
+                    {% if event.tags %}
+                        <h3 style="font-weight: bold;">Tags</h3>
+                        <div class="event-tags mb-4">
+                            {% for tag in event.tags %}
+                                <span class="badge badge-light mr-2">#{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Terms & Refund Policy -->
+                    {% if event.terms_and_conditions or event.refund_policy %}
+                        <div class="event-policies mt-4">
+                            {% if event.terms_and_conditions %}
+                                <h3 style="font-weight: bold;">Terms & Conditions</h3>
+                                <p class="black-color">{{ event.terms_and_conditions|linebreaks }}</p>
+                            {% endif %}
+                            
+                            {% if event.refund_policy %}
+                                <h3 style="font-weight: bold;">Refund Policy</h3>
+                                <p class="black-color">{{ event.refund_policy|linebreaks }}</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                </div>
+                <!-- event-details - end -->
+
+            </div>
+            <!-- col - event-details - end -->
+
+            <!-- sidebar-section - start -->
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="register-wrapper mb-70 clearfix">
+                    <div class="section-title text-left mb-50" style="margin-top: 10px; padding-top: 20px; margin-bottom: 30px;">
+                        <span class="line-style"></span>
+                        <h2 class="big-title"><strong>Buy a Ticket</strong></h2>
+                    </div>
+
+                    <div class="register-table">
+                        <ul>
+                            <!-- Header -->
+                            <li class="rt-header mb-4">
+                                <div class="header-leftside-content">
+                                    <strong>{{ event.title }}</strong> 
+                                    <span class="d-block small text-muted">{{ event.start_date|date:"l, d F Y" }}</span>
+                                </div>
+                            </li>
+
+                            <!-- Body -->
+                            <li class="rt-body">
+                                <div class="ticket-description mb-30">
+                                    <p>Kindly indicate how many tickets you would like.</p>
+                                </div>
+
+                                <form method="POST" action="{% url 'event_booking' event.id %}" id="booking-form">
+                                    {% csrf_token %}
+
+                                    <!-- Ticket Type Selection -->
+                                    <div class="form-group">
+                                        <label for="ticket_type">Select Ticket Type</label>
+                                        <select name="ticket_type" id="ticket_type" class="form-control" required>
+                                            <option value="">-- Choose a ticket type --</option>
+                                            {% for ticket_type in ticket_types %}
+                                                <option value="{{ ticket_type.id }}" 
+                                                        data-price="{{ ticket_type.current_price }}"
+                                                        data-remaining="{{ ticket_type.tickets_remaining }}"
+                                                        data-max="{{ ticket_type.max_per_order }}">
+                                                    {{ ticket_type.name }} - 
+                                                    {% if ticket_type.early_bird_price and ticket_type.early_bird_end_date > now %}
+                                                        Early Bird: K{{ ticket_type.early_bird_price }}
+                                                        (Regular: K{{ ticket_type.price }})
+                                                    {% else %}
+                                                        K{{ ticket_type.price }}
+                                                    {% endif %}
+                                                    ({{ ticket_type.tickets_remaining }} left)
+                                                </option>
+                                            {% empty %}
+                                                <option value="" disabled>No tickets available</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <!-- Ticket Options Container -->
+                                    <div id="ticket-options-container" class="ticket-options mb-30" style="display: none;">
+                                        <!-- Dynamically populated by JavaScript -->
+                                    </div>
+
+                                    <!-- Total Price -->
+                                    <div class="total-price-section mb-30" id="total-price-section" style="display: none;">
+                                        <span class="total-price-label">Total Price:</span>
+                                        <span class="total-price-amount">K <span id="total-price">0.00</span></span>
+                                    </div>
+
+                                    <!-- User Details Form - Only show if user is not authenticated -->
+                                    {% if not user.is_authenticated %}
+                                    <div class="user-details-form">
+                                        <h4 class="form-title">Enter Your Details</h4>
+                                        
+                                        <!-- Full Name -->
+                                        <div class="form-group">
+                                            <label for="full_name">Full Name *</label>
+                                            <input type="text" name="full_name" id="full_name" 
+                                                   placeholder="Enter your full name" 
+                                                   class="form-control" required>
+                                        </div>
+
+                                        <!-- Email -->
+                                        <div class="form-group">
+                                            <label for="email">Email Address *</label>
+                                            <input type="email" name="email" id="email" 
+                                                   placeholder="your@email.com" 
+                                                   class="form-control" required>
+                                        </div>
+
+                                        <!-- Phone Number -->
+                                        <div class="form-group">
+                                            <label for="phone_number">Phone Number *</label>
+                                            <input type="tel" name="phone_number" id="phone_number" 
+                                                   placeholder="+260 XXX XXX XXX" 
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Submit Button -->
+                                    <div class="form-group">
+                                        <button type="submit" class="custom-button" id="submit-btn" disabled>
+                                            <i class="fas fa-ticket-alt mr-2"></i> Buy Ticket(s)
+                                        </button>
+                                    </div>
+                                </form>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Event Stats Card -->
+                <div class="event-stats-card bg-light p-4 rounded mt-4">
+                    <h4 class="mb-3"><i class="fas fa-chart-bar mr-2"></i> Event Statistics</h4>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <div class="stat-item">
+                                <small class="text-muted d-block">Total Tickets</small>
+                                <strong class="h4">{{ event.max_capacity }}</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="stat-item">
+                                <small class="text-muted d-block">Sold</small>
+                                <strong class="h4">{{ event.total_tickets_sold }}</strong>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <small class="text-muted d-block">Remaining</small>
+                                <strong class="h4 {% if event.available_tickets < 10 %}text-danger{% endif %}">
+                                    {{ event.available_tickets }}
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <small class="text-muted d-block">Status</small>
+                                <span class="badge {% if event.status == 'published' %}badge-success{% elif event.status == 'sold_out' %}badge-danger{% else %}badge-secondary{% endif %} p-2">
+                                    {{ event.get_status_display }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    {% with percentage=event.total_tickets_sold|floatformat:0 %}
+                        <div class="progress mt-3" style="height: 10px;">
+                            <div class="progress-bar {% if event.total_tickets_sold >= event.max_capacity %}bg-danger{% else %}bg-success{% endif %}" 
+                                 role="progressbar" 
+                                 style="width: {% widthratio event.total_tickets_sold event.max_capacity 100 %}%" 
+                                 aria-valuenow="{% widthratio event.total_tickets_sold event.max_capacity 100 %}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                            </div>
+                        </div>
+                    {% endwith %}
+                </div>
+            </div>
+            <!-- sidebar-section - end -->
+        </div>
+    </div>
+</section>
+<!-- event-details-section - end -->
+
+<script>
+    // Store ticket types data
+    const ticketTypes = {};
+    {% for ticket_type in ticket_types %}
+        ticketTypes[{{ ticket_type.id }}] = {
+            name: "{{ ticket_type.name|escapejs }}",
+            price: {{ ticket_type.current_price }},
+            remaining: {{ ticket_type.tickets_remaining }},
+            maxPerOrder: {{ ticket_type.max_per_order }},
+            description: "{{ ticket_type.description|escapejs }}",
+            class: "{{ ticket_type.ticket_class }}"
+        };
+    {% endfor %}
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const ticketTypeSelect = document.getElementById('ticket_type');
+        const optionsContainer = document.getElementById('ticket-options-container');
+        const totalPriceSection = document.getElementById('total-price-section');
+        const totalPriceSpan = document.getElementById('total-price');
+        const submitBtn = document.getElementById('submit-btn');
+        
+        // Current selected quantities
+        let quantities = {};
+
+        ticketTypeSelect.addEventListener('change', function() {
+            const selectedId = this.value;
+            
+            if (selectedId && ticketTypes[selectedId]) {
+                // Show container
+                optionsContainer.style.display = 'block';
+                optionsContainer.innerHTML = ''; // Clear previous
+                
+                const ticket = ticketTypes[selectedId];
+                
+                // Create ticket option
+                const ticketDiv = document.createElement('div');
+                ticketDiv.className = 'ticket-option-item';
+                ticketDiv.innerHTML = `
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h4 class="ticket-option-title">${ticket.name}</h4>
+                            <p class="ticket-option-details">${ticket.description || 'Standard admission'}</p>
+                            <p class="ticket-option-remaining ${ticket.remaining < 10 ? (ticket.remaining < 5 ? 'danger' : 'warning') : ''}">
+                                <i class="fas fa-ticket-alt mr-1"></i> ${ticket.remaining} tickets remaining
+                            </p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <p class="ticket-option-price">K ${ticket.price.toFixed(2)}</p>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <input type="number" 
+                                   name="quantity_${selectedId}" 
+                                   class="form-control ticket-quantity" 
+                                   min="0" 
+                                   max="${Math.min(ticket.remaining, ticket.maxPerOrder)}" 
+                                   value="1"
+                                   data-price="${ticket.price}"
+                                   data-ticket-id="${selectedId}"
+                                   onchange="updateTotalPrice()">
+                        </div>
+                    </div>
+                `;
+                
+                optionsContainer.appendChild(ticketDiv);
+                totalPriceSection.style.display = 'flex';
+                updateTotalPrice();
+            } else {
+                optionsContainer.style.display = 'none';
+                totalPriceSection.style.display = 'none';
+                submitBtn.disabled = true;
+            }
+        });
+        
+        // Form validation
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            const selectedId = ticketTypeSelect.value;
+            
+            if (!selectedId) {
+                e.preventDefault();
+                alert('Please select a ticket type');
+                return;
+            }
+            
+            const quantity = document.querySelector(`[name="quantity_${selectedId}"]`);
+            if (!quantity || parseInt(quantity.value) === 0) {
+                e.preventDefault();
+                alert('Please select at least 1 ticket');
+                return;
+            }
+            
+            // Check if user is logged in, if not validate guest fields
+            {% if not user.is_authenticated %}
+                const fullName = document.getElementById('full_name');
+                const email = document.getElementById('email');
+                const phone = document.getElementById('phone_number');
+                
+                if (!fullName.value || !email.value || !phone.value) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // Basic email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email.value)) {
+                    e.preventDefault();
+                    alert('Please enter a valid email address');
+                    return;
+                }
+            {% endif %}
+        });
     });
+
+    function updateTotalPrice() {
+        let total = 0;
+        let hasQuantity = false;
+        const quantities = document.querySelectorAll('.ticket-quantity');
+        
+        quantities.forEach(input => {
+            const qty = parseInt(input.value) || 0;
+            if (qty > 0) hasQuantity = true;
+            const price = parseFloat(input.dataset.price);
+            total += qty * price;
+        });
+        
+        document.getElementById('total-price').textContent = total.toFixed(2);
+        document.getElementById('submit-btn').disabled = !hasQuantity;
+    }
 </script>
 {% endblock content %}
-			 

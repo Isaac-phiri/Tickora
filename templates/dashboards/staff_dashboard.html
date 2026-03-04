@@ -1,0 +1,295 @@
+{% extends 'accounts/dashboard/base_dashboard.html' %}
+{% load humanize %}
+
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-chalkboard-teacher me-2"></i>Staff Dashboard</h2>
+        <div>
+            <span class="text-muted">Welcome back, {{ request.user.first_name }}!</span>
+        </div>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon bg-primary me-3">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1">My Events</h6>
+                        <h3 class="mb-0">{{ total_events }}</h3>
+                        <small class="text-muted">{{ upcoming_events }} upcoming</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon bg-success me-3">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1">Tickets Sold</h6>
+                        <h3 class="mb-0">{{ total_tickets_sold|default:"0" }}</h3>
+                        <small class="text-muted">Across all events</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon bg-info me-3">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1">Revenue</h6>
+                        <h3 class="mb-0">${{ total_revenue|floatformat:2|intcomma }}</h3>
+                        <small class="text-muted">Total sales</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon bg-warning me-3">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1">Today's Check-ins</h6>
+                        <h3 class="mb-0">{{ today_checkins }}</h3>
+                        <small class="text-muted">{{ checkins_remaining|default:"0" }} remaining</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Events I Organize -->
+        <div class="col-lg-6 mb-4">
+            <div class="table-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0"><i class="fas fa-star me-2 text-warning"></i>Events I Organize</h5>
+                    <a href="{% url 'events:dashboard_event_create' %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus me-1"></i> New Event
+                    </a>
+                </div>
+                <div class="list-group">
+                    {% for event in organized_events %}
+                    <a href="{% url 'events:dashboard_event_detail' event.pk %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ event.title }}</h6>
+                            <small>{{ event.start_date|date:"M d, Y" }}</small>
+                        </div>
+                        <p class="mb-1 text-muted small">
+                            <i class="fas fa-map-marker-alt me-1"></i>{{ event.venue_name|truncatechars:30 }}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="badge bg-{% if event.status == 'published' %}success{% elif event.status == 'draft' %}secondary{% else %}info{% endif %}">
+                                {{ event.get_status_display }}
+                            </span>
+                            <small class="text-muted">
+                                <i class="fas fa-ticket-alt me-1"></i>{{ event.total_tickets_sold }}/{{ event.max_capacity }} sold
+                            </small>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-calendar-plus fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">You haven't created any events yet</p>
+                        <a href="{% url 'events:dashboard_event_create' %}" class="btn btn-primary btn-sm">
+                            Create Your First Event
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if organized_events|length > 5 %}
+                <div class="text-center mt-3">
+                    <a href="{% url 'events:dashboard_event_list' %}?organizer=me" class="btn btn-outline-primary btn-sm">
+                        View All Events
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Co-organized Events -->
+        <div class="col-lg-6 mb-4">
+            <div class="table-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0"><i class="fas fa-users me-2 text-info"></i>Co-organized Events</h5>
+                </div>
+                <div class="list-group">
+                    {% for event in co_organized_events %}
+                    <a href="{% url 'events:dashboard_event_detail' event.pk %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ event.title }}</h6>
+                            <small>{{ event.start_date|date:"M d, Y" }}</small>
+                        </div>
+                        <p class="mb-1 text-muted small">
+                            <i class="fas fa-user me-1"></i>Organizer: {{ event.organizer.full_name }}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="badge bg-{% if event.status == 'published' %}success{% elif event.status == 'draft' %}secondary{% else %}info{% endif %}">
+                                {{ event.get_status_display }}
+                            </span>
+                            <small class="text-muted">
+                                <i class="fas fa-ticket-alt me-1"></i>{{ event.total_tickets_sold }}/{{ event.max_capacity }} sold
+                            </small>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-user-friends fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">You're not co-organizing any events</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Today's Check-ins & Recent Activity -->
+    <div class="row">
+        <!-- Quick Check-in -->
+        <div class="col-lg-4 mb-4">
+            <div class="table-card">
+                <h5 class="mb-3"><i class="fas fa-qrcode me-2 text-success"></i>Quick Check-in</h5>
+                <p class="text-muted small mb-3">Select an event to start scanning tickets</p>
+                <div class="list-group mb-3">
+                    {% for event in organized_events|slice:":3" %}
+                    {% if event.status == 'published' and event.start_date|date:"Y-m-d" == now|date:"Y-m-d" %}
+                    <a href="{% url 'tickets:scan_tickets' event.id %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-calendar-day me-2 text-primary"></i>
+                                {{ event.title|truncatechars:25 }}
+                            </div>
+                            <span class="badge bg-success">Today</span>
+                        </div>
+                    </a>
+                    {% endif %}
+                    {% empty %}
+                    <p class="text-muted text-center py-2">No events scheduled for today</p>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'tickets:scan_select_event' %}" class="btn btn-outline-success w-100">
+                    <i class="fas fa-camera me-2"></i>Open Scanner
+                </a>
+            </div>
+        </div>
+        
+        <!-- Recent Check-ins -->
+        <div class="col-lg-4 mb-4">
+            <div class="table-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0"><i class="fas fa-check-circle me-2 text-success"></i>Recent Check-ins</h5>
+                </div>
+                <div class="list-group">
+                    {% for checkin in recent_checkins %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ checkin.attendee_name|default:"Anonymous" }}</h6>
+                            <small class="text-success">{{ checkin.checked_in_at|timesince }} ago</small>
+                        </div>
+                        <p class="mb-1 text-muted small">
+                            {{ checkin.event.title|truncatechars:30 }} - {{ checkin.ticket_type.name }}
+                        </p>
+                        <small class="text-muted">Ticket: {{ checkin.ticket_number|slice:":8" }}...</small>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-check fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No check-ins yet today</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="col-lg-4 mb-4">
+            <div class="table-card">
+                <h5 class="mb-3"><i class="fas fa-chart-pie me-2 text-primary"></i>Event Performance</h5>
+                {% for event in organized_events|slice:":3" %}
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="small">{{ event.title|truncatechars:20 }}</span>
+                        <span class="small fw-bold">{{ event.total_tickets_sold }}/{{ event.max_capacity }}</span>
+                    </div>
+                    <div class="progress" style="height: 8px;">
+                        {% widthratio event.total_tickets_sold event.max_capacity 100 as percentage %}
+                        <div class="progress-bar bg-success" role="progressbar" 
+                             style="width: 100px" 
+                             aria-valuenow="{{ percentage }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                        </div>
+                    </div>
+                    <small class="text-muted">${{ event.revenue|floatformat:0 }} revenue</small>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center py-3">No events to display</p>
+                {% endfor %}
+                <hr>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'events:dashboard_event_list' %}" class="btn btn-outline-primary btn-sm">
+                        View All Events
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="row">
+        <div class="col-12">
+            <div class="table-card">
+                <h5 class="mb-3"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'events:dashboard_event_create' %}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-plus-circle me-2"></i>Create Event
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'tickets:scan_select_event' %}" class="btn btn-outline-success w-100">
+                            <i class="fas fa-camera me-2"></i>Scan Tickets
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'orders:dashboard_order_list' %}" class="btn btn-outline-info w-100">
+                            <i class="fas fa-shopping-cart me-2"></i>View Orders
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'tickets:dashboard_ticket_list' %}" class="btn btn-outline-warning w-100">
+                            <i class="fas fa-ticket-alt me-2"></i>Manage Tickets
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-refresh check-in count every 30 seconds
+    setTimeout(function() {
+        location.reload();
+    }, 30000);
+</script>
+{% endblock %}
