@@ -19,8 +19,82 @@ from django.contrib.auth.decorators import login_required
 from decimal import Decimal
 import stripe
 from django.db.models import Q
+from .forms import *
+from dets.decorators import check_order_ownership, prevent_double_purchase
 
 
+@login_required
+@prevent_double_purchase
+def checkout(request, event_id):
+    """
+    Checkout view - displays order summary and collects customer info
+    """
+    event = get_object_or_404(Event, pk=event_id)
+    cart = get_cart(request)
+    
+    if not cart or cart.item_count == 0:
+        messages.warning(request, "Your cart is empty.")
+        return redirect('events:event_detail', pk=event_id)
+    
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    # Create order
+                    order = Order.objects.create(
+                        user=request.user,
+                        email=form.cleaned_data['email'],
+                        phone_number=form.cleaned_data['phone_number'],
+                        event=event,
+                        status='pending',
+                        order_number=generate_order_number(),
+                        expiry_date=timezone.now() + timezone.timedelta(minutes=30)
+                    )
+                    
+                    # Create order items from cart
+                    for item in cart.items.all():
+                        ticket_type = item.ticket_type
+                        
+                        # Check availability
+                        if ticket_type.tickets_remaining < item.quantity:
+                            raise ValueError(f"Not enough tickets available for {ticket_type.name}")
+                        
+                        OrderItem.objects.create(
+                            order=order,
+                            ticket_type=ticket_type,
+                            quantity=item.quantity,
+                            unit_price=ticket_type.current_price
+                        )
+                    
+                    # Calculate totals
+                    order.calculate_totals()
+                    
+                    # Clear cart
+                    clear_cart(request)
+                    
+                    # Redirect to payment
+                    return redirect('payments:process_payment', order_id=order.id)
+                    
+            except Exception as e:
+                logger.error(f"Checkout error: {str(e)}")
+                messages.error(request, "An error occurred during checkout. Please try again.")
+    else:
+        initial = {
+            'email': request.user.email,
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+        }
+        form = CheckoutForm(initial=initial)
+    
+    context = {
+        'event': event,
+        'cart': cart,
+        'form': form,
+        'total': cart.total,
+    }
+    
+    return render(request, 'orders/checkout.html', context)
 
 def cart_detail(request):
     """

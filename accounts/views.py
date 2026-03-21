@@ -59,7 +59,7 @@ def login_view(request):
         if user is not None:
             print("User authenticated:", user)
             auth_login(request, user)
-            return redirect('homepage')  # Ensure this matches your URL pattern name
+            return redirect('events:homepage')  # Ensure this matches your URL pattern name
         else:
             print("Authentication failed")
             return render(request, 'registration/login.html', {'error': 'Invalid credentials'})
@@ -68,7 +68,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect(reverse('homepage'))
+    return redirect(reverse('events:homepage'))
 
 
 def contact_us(request):

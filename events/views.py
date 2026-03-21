@@ -2,7 +2,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from django.db.models import Q
+from django.views.generic import ListView
+from django.db.models import Q, Count, Avg, Min, Max, Prefetch, Case, When, IntegerField, Value, F
+from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models.functions import TruncDate, TruncMonth, TruncYear
+from datetime import datetime, timedelta
+import calendar
+from tickets.models import Ticket
 from .models import *
 from .forms import *
 from events.managers import TicketManager
@@ -14,52 +21,160 @@ from datetime import timedelta
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
-
-
 class EventListView(ListView):
     model = Event
-    template_name = 'event/event_list.html'
+    template_name = 'event/event_list.html'  # Adjust path as needed
     context_object_name = 'events'
     paginate_by = 6
-
-# class EventHomePageListView(ListView):
-#     model = Event
-#     template_name = 'home/homepage.html'
-#     login_url = 'login'
-#     paginate_by = 4
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["events_list"] = Event.objects.all().order_by('-timestamp') 
-#         context['events'] = Event.objects.all()
-#         context['latest'] = Event.get_latest_events()
-#         return context
-
-
-class EventHomePageListView(TemplateView):
-    template_name = 'home/homepage.html'
-    paginate_by = 6  # Items per page
-
-    def get_latest_events(self):
-        return self.order_by('-created_at')
+    
+    def get_queryset(self):
+        """
+        Return published events with optimized queries
+        """
+        queryset = Event.objects.filter(
+            status=Event.EventStatus.PUBLISHED
+        ).select_related(
+            'organizer', 
+            'category'
+        ).prefetch_related(
+            'co_organizers',
+            'ticket_types'  # If you have a TicketType model
+        ).order_by('-start_date')
+        
+        # Apply search filters
+        query = self.request.GET.get('q', '')
+        category = self.request.GET.get('event_type', '')
+        
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(description__icontains=query) |
+                Q(venue_name__icontains=query) |
+                Q(city__icontains=query) |
+                Q(state__icontains=query) |
+                Q(short_description__icontains=query)
+            )
+        
+        if category:
+            queryset = queryset.filter(category__name__iexact=category)
+            
+        return queryset
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # Get the type parameter from URL
-        listing_type = self.request.GET.get('type')
+        # Add categories for filter dropdown
+        context['categories'] = EventCategory.objects.all()
         
-        # Event listing
-        event_list = Event.objects.all().order_by('-created_at')
-        event_paginator = Paginator(event_list, self.paginate_by)
-        event_page = self.request.GET.get('event_page', 1)
-        context['events_list'] = event_paginator.get_page(event_page)
-        context['events'] = Event.objects.all()
-        context['latest'] = Event.get_latest_events()
+        # Add search parameters to context for form persistence
+        context['search_query'] = self.request.GET.get('q', '')
+        context['selected_category'] = self.request.GET.get('event_type', '')
         
-        # Pass the active tab type
-        context['active_tab'] = listing_type
+        # Get featured events (optional)
+        context['featured_events'] = Event.objects.filter(
+            status=Event.EventStatus.PUBLISHED,
+            is_featured=True
+        )[:3]
         
+        return context
+
+# class EventListView(ListView):
+#     model = Event
+#     template_name = 'event/event_list.html'
+#     context_object_name = 'events'
+#     paginate_by = 6
+
+    # def get_queryset(self):
+    #     queryset = Event.objects.filter(
+    #         status='published',
+    #         start_date__gte=timezone.now()
+    #     ).select_related('organizer').annotate(
+    #         ticket_count=Count('tickets', distinct=True)
+    #     )
+        
+    #     # Search
+    #     search_query = self.request.GET.get('search')
+    #     if search_query:
+    #         queryset = queryset.filter(
+    #             Q(title__icontains=search_query) |
+    #             Q(description__icontains=search_query) |
+    #             Q(venue_name__icontains=search_query) |
+    #             Q(city__icontains=search_query)
+    #         )
+        
+    #     # Filter by date
+    #     date_filter = self.request.GET.get('date')
+    #     today = timezone.now().date()
+        
+    #     if date_filter == 'today':
+    #         queryset = queryset.filter(start_date__date=today)
+    #     elif date_filter == 'tomorrow':
+    #         tomorrow = today + timedelta(days=1)
+    #         queryset = queryset.filter(start_date__date=tomorrow)
+    #     elif date_filter == 'weekend':
+    #         # Assuming weekend is Friday-Sunday
+    #         queryset = queryset.filter(
+    #             start_date__date__gte=today,
+    #             start_date__date__lte=today + timedelta(days=7)
+    #         ).extra(where=["strftime('%w', start_date) IN ('5', '6', '0')"])
+    #     elif date_filter == 'week':
+    #         queryset = queryset.filter(
+    #             start_date__date__gte=today,
+    #             start_date__date__lte=today + timedelta(days=7)
+    #         )
+    #     elif date_filter == 'month':
+    #         queryset = queryset.filter(
+    #             start_date__date__gte=today,
+    #             start_date__date__lte=today + timedelta(days=30)
+    #         )
+        
+    #     # Filter by location
+    #     city = self.request.GET.get('city')
+    #     if city:
+    #         queryset = queryset.filter(city__icontains=city)
+        
+    #     # Filter by category/type
+    #     event_type = self.request.GET.get('type')
+    #     if event_type:
+    #         queryset = queryset.filter(venue_type=event_type)
+        
+    #     return queryset.order_by('start_date')
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['featured_events'] = Event.objects.filter(
+    #         is_featured=True,
+    #         status='published',
+    #         start_date__gte=timezone.now()
+    #     )[:4]
+        
+    #     # Add filter options
+    #     context['cities'] = Event.objects.filter(
+    #         status='published'
+    #     ).values_list('city', flat=True).distinct()[:10]
+        
+    #     context['current_filters'] = {
+    #         'search': self.request.GET.get('search', ''),
+    #         'date': self.request.GET.get('date', ''),
+    #         'city': self.request.GET.get('city', ''),
+    #         'type': self.request.GET.get('type', ''),
+    #     }
+        
+    #     return context
+
+
+class EventHomePageListView(ListView):
+    model = Event
+    context_object_name = "events_list"
+    template_name = 'home/homepage.html'
+    paginate_by = 6 # Items per page
+
+    def get_queryset(self):
+        return Event.objects.all().order_by('-created_at')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['latest'] = Event.objects.filter(status='published').order_by('-created_at')
         return context
 
 class AboutUsView(TemplateView):

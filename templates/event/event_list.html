@@ -3,305 +3,672 @@
 
 {% block content %}
 
+<style>
+    /* Event Card Enhancements - Keeping your existing styles */
 
-<!-- breadcrumb-section - start
-		================================================== -->
-		<section id="breadcrumb-section" class="breadcrumb-section clearfix">
-			<div class="jarallax" style="background-image: url({% static 'assets/images/breadcrumb/0.breadcrumb-bg.jpg' %});">
-				<div class="overlay-black">
-					<div class="container">
-						<div class="row justify-content-center">
-							<div class="col-lg-6 col-md-12 col-sm-12">
+    
+    .event-item2:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .event-image {
+        position: relative;
+        overflow: hidden;
+        height: 220px;
+    }
+    
+    .event-image img {
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .event-item2:hover .event-image img {
+        transform: scale(1.05);
+    }
+    
+    .post-date {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 8px 15px;
+        border-radius: 30px;
+        z-index: 2;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        line-height: 1.2;
+    }
+    
+    .post-date .date {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        margin-right: 5px;
+    }
+    
+    .post-date .month {
+        font-size: 14px;
+        color: #666;
+        text-transform: uppercase;
+    }
+    
+    /* Status Badges */
+    .status-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 5px 15px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        z-index: 2;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .status-badge.sold-out {
+        background: #dc3545;
+        color: white;
+    }
+    
+    .status-badge.cancelled {
+        background: #6c757d;
+        color: white;
+    }
+    
+    .status-badge.published {
+        background: #28a745;
+        color: white;
+    }
+    
+    .status-badge.featured {
+        background: #ffc107;
+        color: #333;
+    }
+    
+    .event-content {
+        padding: 25px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .tickets-details-btn,
+    .buy-tickets-btn {
+        flex: 1;
+        padding: 10px 15px;
+        text-align: center;
+        
+    }
+    
+    .event-title-link {
+        color: #333;
+        text-decoration: none;
+    }
+    
+    .event-title-link:hover {
+        color: #ffb600;
+    }
+    
+    .ticket-price {
+        font-weight: 700;
+        white-space: nowrap;
+    }
+    
+    .yellow-color {
+        color: #ffb600;
+    }
+    
+    .event-post-meta ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .event-post-meta li {
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+    }
+    
+    
+    .ml-3 {
+        margin-left: 15px;
+    }
+    
+    .no-events-message {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 50px;
+    }
+    
+    /* Search form styles */
+    .search-form ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .search-form li {
+        margin-bottom: 20px;
+    }
+    
+    .search-form .title {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .search-form .form-item input,
+    .search-form select {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+    
+    .search-form .form-item input:focus,
+    .search-form select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .event-image {
+            height: 180px;
+        }
+        
+        .event-title {
+            flex-direction: column;
+        }
+        
+        .event-title .title {
+            margin-bottom: 8px;
+        }
+        
+        .event-actions {
+            flex-direction: column;
+        }
+        
+        .custom-btn {
+            display: block;
+            text-align: center;
+        }
+        
+        .pagination ul {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+    
+    /* Filter chips */
+    .filter-chips {
+        margin-bottom: 30px;
+    }
+    
+    .filter-chip {
+        display: inline-block;
+        padding: 6px 15px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 30px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .filter-chip:hover,
+    .filter-chip.active {
+        background: #007bff;
+        color: white;
+        border-color: #007bff;
+        text-decoration: none;
+    }
+    
+    .filter-chip .remove-filter {
+        margin-left: 5px;
+        font-size: 12px;
+    }
+    
+    .sort-select {
+        padding: 8px 15px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        background: white;
+    }
+</style>
 
-								<!-- breadcrumb-title - start -->
-								<div class="breadcrumb-title text-center mb-50">
-									<span class="sub-title">Tickora events</span>
-									<h2 class="big-title">Tickora <strong>event</strong></h2>
-								</div>
-								<!-- breadcrumb-title - end -->
 
-								<!-- breadcrumb-list - start -->
-								<div class="breadcrumb-list">
-									<ul>
-										<li class="breadcrumb-item"><a href="{% url 'homepage' %}" class="breadcrumb-link">Home</a></li>
-										<li class="breadcrumb-item active" aria-current="page">event</li>
-									</ul>
-								</div>
-								<!-- breadcrumb-list - end -->
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- breadcrumb-section - end
-		================================================== -->
-
-
-
-
-
-		<!-- event-search-section - start
-		================================================== -->
-		<section id="event-search-section" class="event-search-section clearfix" style="background-image: url({% static 'assets/images/special-offer-bg.png' %});">
-			<div class="container">
-				<div class="row">
-
-					<!-- section-title - start -->
-					<div class="col-lg-4 col-md-12 col-sm-12">
-						<div class="section-title">
-							<small class="sub-title">Find best event on Tickora</small>
-							<h2 class="big-title">event <strong>Search</strong></h2>
-						</div>
-					</div>
-					<!-- section-title - end -->
-
-					<!-- search-form - start -->
-					<div class="col-lg-8 col-md-12 col-sm-12">
-						<div class="search-form form-wrapper">
-							<form method="GET" action="{% url 'event_search' %}">
-								<ul>
-									<li>
-										<span class="title">event keyword</span>
-										<div class="form-item">
-											<input type="search" name="q" placeholder="Event name, location, etc." value="{{ search_query }}">
-										</div>
-									</li>
-									<li>
-										<span class="title">event category</span>
-										<select name="event_type" id="event-category-select">
-											<option value="">Select Category</option>
-											{% for type, type_display in event_type_choices %}
-												<option value="{{ type }}" {% if event_type == type %}selected{% endif %}>{{ type_display }}</option>
-											{% endfor %}
-										</select>
-									</li>
-									<li>
-										<button type="submit" class="submit-btn">search event now</button>
-									</li>
-								</ul>
-							</form>
-							
-						</div>
-					</div>
-					<!-- search-form - end -->
-					
-				</div>
-			</div>
-		</section>
-		<!-- event-search-section - end
-		================================================== -->
+<!-- breadcrumb-section - start -->
+<section id="breadcrumb-section" class="breadcrumb-section clearfix">
+    <div class="jarallax" style="background-image: url({% static 'assets/images/breadcrumb/0.breadcrumb-bg.jpg' %});">
+        <div class="overlay-black">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <!-- breadcrumb-title - start -->
+                        <div class="breadcrumb-title text-center mb-50">
+                            <span class="sub-title">Tickora events</span>
+                            <h2 class="big-title">Tickora <strong>event</strong></h2>
+                        </div>
+                        <!-- breadcrumb-title - end -->
+                        
+                        <!-- breadcrumb-list - start -->
+                        <div class="breadcrumb-list">
+                            <ul>
+                                <li class="breadcrumb-item"><a href="{% url 'events:homepage' %}" class="breadcrumb-link">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">event</li>
+                            </ul>
+                        </div>
+                        <!-- breadcrumb-list - end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb-section - end -->
 
 
+<!-- event-search-section - start -->
+<section id="event-search-section" class="event-search-section clearfix" style="background-image: url({% static 'assets/images/special-offer-bg.png' %});">
+    <div class="container">
+        <div class="row">
+            <!-- section-title - start -->
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <div class="section-title">
+                    <small class="sub-title">Find best event on Tickora</small>
+                    <h2 class="big-title">event <strong>Search</strong></h2>
+                </div>
+            </div>
+            <!-- section-title - end -->
+            
+            <!-- search-form - start -->
+            <div class="col-lg-8 col-md-12 col-sm-12">
+                <div class="search-form form-wrapper">
+                    <form method="GET" action="{% url 'events:event-list' %}">
+                        <ul>
+                            <li>
+                                <span class="title">event keyword</span>
+                                <div class="form-item">
+                                    <input type="search" name="q" placeholder="Event name, location, etc." value="{{ search_query }}">
+                                </div>
+                            </li>
+                            <li>
+                                <span class="title">event category</span>
+                                <select name="event_type" id="event-category-select">
+                                    <option value="">All Categories</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category.name }}" {% if selected_category == category.name %}selected{% endif %}>
+                                            {{ category.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </li>
+                            <li>
+                                <button type="submit" class="submit-btn">search event now</button>
+                            </li>
+                        </ul>
+                    </form>
+                    
+                    <!-- Active filters display -->
+                    {% if search_query or selected_category %}
+                    <div class="filter-chips mt-3">
+                        <strong>Active Filters:</strong>
+                        {% if search_query %}
+                        <a href="{% url 'events:event-list' %}?{% if selected_category %}event_type={{ selected_category }}{% endif %}" class="filter-chip">
+                            Search: "{{ search_query }}" <span class="remove-filter">×</span>
+                        </a>
+                        {% endif %}
+                        
+                        {% if selected_category %}
+                        <a href="{% url 'events:event-list' %}?{% if search_query %}q={{ search_query }}{% endif %}" class="filter-chip">
+                            Category: {{ selected_category }} <span class="remove-filter">×</span>
+                        </a>
+                        {% endif %}
+                        
+                        {% if search_query or selected_category %}
+                        <a href="{% url 'events:event-list' %}" class="filter-chip">
+                            Clear all filters
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- search-form - end -->
+        </div>
+    </div>
+</section>
+<!-- event-search-section - end -->
 
 
 
-		 <!-- event-section - start
+<!-- event-section - start
 		================================================== -->
 		<section id="event-section" class="event-section sec-ptb-100 bg-gray-light clearfix">
 			<div class="container">
 
-				<div class="mb-50">
-					<div class="row">
-
-						<!-- section-title - start -->
-						<div class="col-lg-3 col-md-12 col-sm-12">
-							<div class="section-title text-center">
-								<span class="line-style"></span>
-								<small class="sub-title">Tickora Services</small>
-								<h2 class="big-title"><strong>Our</strong> Services</h2>
-							</div>
-						</div>
-						<!-- section-title - end -->
-
-					</div>
-				</div>
-
-				<!-- tab-content - start -->
-				<div class="tab-content">
-                <!-- musical-event - start -->
-                <div id="musical-event" class="tab-pane fade in active show">
-                    <div class="row">
-                        {% for event in events %}
-                        <!-- event-item - start -->
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="event-item2 clearfix">
-
-                                <!-- event-image - start -->
-                                <div class="event-image">
-                                    <div class="post-date">
-                                        <span class="date">{{ event.start_date|date:"d" }}</span>
-                                        <small class="month">{{ event.start_date|date:"M" }}</small>
-                                    </div>
-                                    
-                                    <!-- Status Badge Overlay -->
-                                    {% if event.status == 'sold_out' %}
-                                        <span class="status-badge sold-out">Sold Out</span>
-                                    {% elif event.status == 'cancelled' %}
-                                        <span class="status-badge cancelled">Cancelled</span>
-                                    {% elif event.is_featured %}
-                                        <span class="status-badge featured">Featured</span>
-                                    {% endif %}
-                                    
-                                    <!-- Event Image with fallback -->
-                                    {% if event.banner_image %}
-                                        <img src="{{ event.banner_image.url }}" alt="{{ event.title }}">
-                                    {% elif event.thumbnail_image %}
-                                        <img src="{{ event.thumbnail_image.url }}" alt="{{ event.title }}">
-                                    {% else %}
-                                        <img src="/static/images/event-placeholder.jpg" alt="Event image">
-                                    {% endif %}
-                                </div>
-                                <!-- event-image - end -->
-
-                                <!-- event-content - start -->
-                                <div class="event-content">
-                                    <div class="event-title mb-10">
-                                        <h3 class="title">
-                                            <a href="{% url 'event-detail' event.pk %}" class="event-title-link">
-                                                {{ event.title|truncatechars:50 }}
-                                            </a>
-                                        </h3>
-                                        
-                                        <!-- Price Display -->
-                                        <span class="ticket-price yellow-color">
-                                            {% with event.ticket_types.all as ticket_types %}
-                                                {% if ticket_types %}
-                                                    {% with ticket_types|dictsort:"price" as sorted_tickets %}
-                                                        Tickets from K{{ sorted_tickets.0.price|floatformat:0 }}
-                                                        {% if ticket_types.count > 1 %}
-                                                            <small class="text-muted">+</small>
-                                                        {% endif %}
-                                                    {% endwith %}
-                                                {% else %}
-                                                    Price TBA
-                                                {% endif %}
-                                            {% endwith %}
-                                        </span>
-                                    </div>
-                                    
-                                    <div class="event-post-meta ul-li-block mb-25">
-                                        <ul>
-                                            <li>
-                                                <span class="icon">
-                                                    <i class="far fa-clock"></i>
-                                                </span>
-                                                {{ event.start_date|date:"l, d M Y" }}<br>
-                                                <small>{{ event.start_date|date:"H:i A" }} - {{ event.end_date|date:"H:i A" }}</small>
-                                            </li>
-                                            <li>
-                                                <span class="icon">
-                                                    <i class="fas fa-map-marker-alt"></i>
-                                                </span>
-                                                {{ event.venue_name|truncatechars:25 }}<br>
-                                                <small>{{ event.city }}, {{ event.state }}</small>
-                                            </li>
-                                            {% if event.organizer %}
-                                            <li>
-                                                <span class="icon">
-                                                    <i class="fas fa-user-circle"></i>
-                                                </span>
-                                                By {{ event.organizer.get_full_name }}
-                                            </li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                    
-                                    <!-- Tickets Available Indicator -->
-                                    <div class="ticket-availability mb-10">
-                                        {% with event.total_tickets_sold as sold %}
-                                            {% with event.max_capacity as capacity %}
-                                                {% if capacity and sold %}
-                                                    <div class="progress availability-progress">
-                                                        <div class="progress-bar {% if sold >= capacity %}bg-danger{% else %}bg-success{% endif %}" 
-                                                            role="progressbar" 
-                                                            style="width: {% widthratio sold capacity 100 %}%"
-                                                            aria-valuenow="{% widthratio sold capacity 100 %}" 
-                                                            aria-valuemin="0" 
-                                                            aria-valuemax="100">
-                                                        </div>
-                                                    </div>
-                                                    <small class="text-muted">
-                                                        {{ capacity|add:sold|yesno:"Available,Full" }} • 
-                                                        {{ sold }} / {{ capacity }} booked
-                                                    </small>
-                                                {% endif %}
-                                            {% endwith %}
-                                        {% endwith %}
-                                    </div>
-                                    
-                                    <!-- Action Buttons -->
-                                    <div class="event-actions">
-                                        <a href="{% url 'event-detail' event.pk %}" class="tickets-details-btn">
-                                            <i class="fas fa-info-circle"></i> details
-                                        </a>
-                                        
-                                        {% if event.status == 'published' and not event.is_sold_out %}
-                                            <a href="{% url 'orders:checkout' event.pk %}" class="buy-tickets-btn">
-                                                <i class="fas fa-ticket-alt"></i> buy tickets
-                                            </a>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <!-- event-content - end -->
-
-                            </div>
+                <div class="row mb-30">
+                    <div class="col-md-6">
+                        <div class="section-title text-left">
+                            <span class="line-style"></span>
+                            <small class="sub-title">Upcoming Events</small>
+                            <h2 class="big-title"><strong>Latest</strong> Events</h2>
                         </div>
-                        <!-- event-item - end -->
-                        {% empty %}
-                        <!-- No events message -->
-                        <div class="col-12">
-                            <div class="no-events-message text-center py-5">
-                                <i class="fas fa-calendar-times fa-4x mb-3" style="color: #999;"></i>
-                                <h4>No Events Found</h4>
-                                <p class="text-muted">Check back later for upcoming events.</p>
-                            </div>
-                        </div>
-                        {% endfor %}
+                    </div>
 
-                        <!-- Pagination controls -->
+                    
+                    
+                    <!-- Results count -->
+                    <div class="col-md-6 text-right">
                         {% if events %}
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="pagination ul-li clearfix">
-                                <ul class="d-flex justify-content-center align-items-center">
-                                    {% if events.has_previous %}
-                                        <li><a href="?page={{ events.previous_page_number }}" class="page-link">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </a></li>
-                                    {% endif %}
-                                    
-                                    {% for num in events.paginator.page_range %}
-                                        {% if events.number == num %}
-                                            <li class="active"><span class="page-link">{{ num }}</span></li>
-                                        {% elif num > events.number|add:'-3' and num < events.number|add:'3' %}
-                                            <li><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
-                                        {% endif %}
-                                    {% endfor %}
-                                    
-                                    {% if events.has_next %}
-                                        <li><a href="?page={{ events.next_page_number }}" class="page-link">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </a></li>
-                                    {% endif %}
-                                    
-                                    <li class="ml-3">
-                                        <a href="{% url 'event-list' %}" class="custom-btn">
-                                            View All Events <i class="fas fa-arrow-right ml-1"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <p class="text-muted mt-20">
+                            Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ paginator.count }} events
+                        </p>
                         {% endif %}
                     </div>
                 </div>
-                <!-- musical-event - end -->
-            </div>
+
+				<!-- tab-content - start -->
+				<div class="tab-content">
+					<!-- musical-event - start -->
+					<div id="" class="tab-pane fade in active show">
+						<div class="row">
+                            {% for event in events %}
+							<!-- event-item - start -->
+							<div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="event-item2 clearfix">
+
+                                    <!-- event-image - start -->
+                                    <div class="event-image">
+                                        <div class="post-date">
+                                            <span class="date">{{ event.start_date|date:"d" }}</span>
+                                            <small class="month">{{ event.start_date|date:"M"|lower }}</small>
+                                        </div>
+                                        
+                                        <!-- Status Badge Overlay -->
+                                        {% if event.status == 'sold_out' or event.is_sold_out %}
+                                            <span class="status-badge sold-out">Sold Out</span>
+                                        {% elif event.status == 'cancelled' %}
+                                            <span class="status-badge cancelled">Cancelled</span>
+                                        {% elif event.status == 'completed' %}
+                                            <span class="status-badge" style="background: #6c757d; color: white;">Completed</span>
+                                        {% elif event.is_featured %}
+                                            <span class="status-badge featured">Featured</span>
+                                        {% elif event.status == 'published' %}
+                                            <span class="status-badge published">Available</span>
+                                        {% endif %}
+                                        
+                                        <!-- Event Image with fallback -->
+                                        {% if event.banner_image %}
+                                            <img src="{{ event.banner_image.url }}" alt="{{ event.title }}">
+                                        {% elif event.thumbnail_image %}
+                                            <img src="{{ event.thumbnail_image.url }}" alt="{{ event.title }}">
+                                        {% else %}
+                                            <img src="{% static 'assets/images/event-placeholder.jpg' %}" alt="Event image">
+                                        {% endif %}
+                                    </div>
+                                    <!-- event-image - end -->
+
+                                    <!-- event-content - start -->
+                                    <div class="event-content">
+                                        <div class="event-title mb-15">
+                                            <h3 class="title">
+                                                <a href="{% url 'events:event-detail' event.pk %}" class="event-title-link">
+                                                    {{ event.title }}
+                                                </a>
+                                            </h3>
+                                            <span class="ticket-price yellow-color">
+                                                {% with event.ticket_types.all as ticket_types %}
+                                                    {% if ticket_types %}
+                                                        {% with ticket_types|dictsort:"price" as sorted_tickets %}
+                                                            K{{ sorted_tickets.0.price|floatformat:0 }}
+                                                            {% if ticket_types.count > 1 %}
+                                                                <small class="text-muted">+</small>
+                                                            {% endif %}
+                                                        {% endwith %}
+                                                    {% else %}
+                                                        Free
+                                                    {% endif %}
+                                                {% endwith %}
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="event-post-meta ul-li-block mb-30">
+                                            <ul>
+                                                <li>
+                                                    <span class="icon">
+                                                        <i class="far fa-clock"></i>
+                                                    </span>
+                                                    {{ event.start_date|date:"l, d M Y" }}<br>
+                                                    <small>{{ event.start_date|date:"H:i A" }} - {{ event.end_date|date:"H:i A" }}</small>
+                                                </li>
+                                                <li>
+                                                    <span class="icon">
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                    </span>
+                                                    {{ event.venue_name|truncatechars:25 }}<br>
+                                                    <small>{{ event.city }}, {{ event.state }}</small>
+                                                </li>
+                                                {% if event.organizer %}
+                                                <li>
+                                                    <span class="icon">
+                                                        <i class="fas fa-user-circle"></i>
+                                                    </span>
+                                                    By {{ event.organizer.get_full_name }}
+                                                </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                        <a href="{% url 'events:event-detail' event.pk %}" class="tickets-details-btn">
+                                            tickets & details
+                                        </a>
+                                    </div>
+                                    <!-- event-content - end -->
+
+                                </div>
+                            </div>
+                            {% endfor %}
+							<!-- event-item - end -->
+
+							<!-- Pagination -->
+                            {% if page_obj %}
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="pagination ul-li clearfix">
+                                        <ul class="d-flex justify-content-center align-items-center">
+                                            {% if page_obj.has_previous %}
+                                                <li class="page-item prev-item">
+                                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&event_type={{ selected_category }}{% endif %}">
+                                                        <i class="fas fa-chevron-left"></i> Prev
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item prev-item disabled">
+                                                    <span class="page-link">
+                                                        <i class="fas fa-chevron-left"></i> Prev
+                                                    </span>
+                                                </li>
+                                            {% endif %}
+                                            
+                                            {% for num in page_obj.paginator.page_range %}
+                                                {% if page_obj.number == num %}
+                                                    <li class="page-item active">
+                                                        <span class="page-link">{{ num }}</span>
+                                                    </li>
+                                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&event_type={{ selected_category }}{% endif %}">
+                                                            {{ num }}
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                            {% if page_obj.has_next %}
+                                                <li class="page-item next-item">
+                                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&event_type={{ selected_category }}{% endif %}">
+                                                        Next <i class="fas fa-chevron-right"></i>
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item next-item disabled">
+                                                    <span class="page-link">
+                                                        Next <i class="fas fa-chevron-right"></i>
+                                                    </span>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+						</div>
+					</div>
+					<!-- musical-event - end -->
+				</div>
 				<!-- tab-content - end -->
 
 			</div>
 		</section>
-		<!-- event-section - end
-		================================================== -->
+
+<!-- event-section - start -->
+<section id="event-section" class="event-section sec-ptb-100 bg-gray-light clearfix">
+    <div class="container">
+        
+        <!-- Section header with sort options -->
+        <div class="row mb-30">
+            <div class="col-md-6">
+                <div class="section-title text-left">
+                    <span class="line-style"></span>
+                    <small class="sub-title">Upcoming Events</small>
+                    <h2 class="big-title"><strong>Latest</strong> Events</h2>
+                </div>
+            </div>
+
+            
+            
+            <!-- Results count -->
+            <div class="col-md-6 text-right">
+                {% if events %}
+                <p class="text-muted mt-20">
+                    Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ paginator.count }} events
+                </p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Events grid -->
+        
+        
+        <!-- Pagination -->
+            {% if page_obj %}
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="pagination ul-li clearfix">
+                        <ul class="d-flex justify-content-center align-items-center">
+                            {% if page_obj.has_previous %}
+                                <li>
+                                    <a href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&event_type={{ selected_category }}{% endif %}" 
+                                    class="page-link">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if is_paginated.number == num %}
+                                    <li class="active"><span class="page-link">{{ num }}</span></li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <li>
+                                        <a href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&event_type={{ selected_category }}{% endif %}" 
+                                        class="page-link">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if page_obj.has_next %}
+                                <li>
+                                    <a href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&event_type={{ selected_category }}{% endif %}" 
+                                    class="page-link">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        
+        <!-- Featured events suggestion (optional) -->
+        {% if featured_events %}
+        <div class="row mt-50">
+            <div class="col-12">
+                <h3 class="text-center mb-30">Check out our featured events</h3>
+            </div>
+            {% for event in featured_events %}
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="event-item2 clearfix">
+                    <!-- Mini event card similar to above but simpler -->
+                    <div class="event-image">
+                        <img src="{% if event.banner_image %}{{ event.banner_image.url }}{% else %}{% static 'assets/images/event-placeholder.jpg' %}{% endif %}" 
+                             alt="{{ event.title }}">
+                    </div>
+                    <div class="event-content">
+                        <h4>{{ event.title|truncatechars:40 }}</h4>
+                        <p>{{ event.start_date|date:"M d, Y" }} • {{ event.city }}</p>
+                        <a href="{% url 'events:event-detail' event.pk %}" class="custom-btn btn-sm">View Event</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+    </div>
+</section>
+<!-- event-section - end -->
+
+<!-- Add this script for form handling -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle form submission to preserve GET parameters
+    const searchForm = document.querySelector('.search-form form');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const params = new URLSearchParams();
+            
+            for (let [key, value] of formData.entries()) {
+                if (value.trim() !== '') {
+                    params.append(key, value);
+                }
+            }
+            
+            // Preserve page parameter if needed
+            const currentUrl = new URL(window.location.href);
+            if (currentUrl.searchParams.has('page')) {
+                params.append('page', currentUrl.searchParams.get('page'));
+            }
+            
+            window.location.href = this.action + '?' + params.toString();
+        });
+    }
+});
+</script>
+
 {% endblock content %}

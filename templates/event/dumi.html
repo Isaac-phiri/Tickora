@@ -129,8 +129,8 @@
 								<!-- breadcrumb-list - start -->
 								<div class="breadcrumb-list">
 									<ul>
-										<li class="breadcrumb-item"><a href="{% url 'homepage' %}" class="breadcrumb-link">Home</a></li>
-										<li class="breadcrumb-item"><a href="{% url 'event-list' %}" class="breadcrumb-link">Events</a></li>
+										<li class="breadcrumb-item"><a href="{% url 'events:homepage' %}" class="breadcrumb-link">Home</a></li>
+										<li class="breadcrumb-item"><a href="{% url 'events:event-list' %}" class="breadcrumb-link">Events</a></li>
 										<li class="breadcrumb-item active" aria-current="page">{{event.event_name|truncatechars:9 }}</li>
 									</ul>
 								</div>
@@ -369,3 +369,24 @@
     });
 </script>
 {% endblock content %}
+
+<div class="row mb-30">
+            <div class="col-md-6">
+                <div class="section-title text-left">
+                    <span class="line-style"></span>
+                    <small class="sub-title">Upcoming Events</small>
+                    <h2 class="big-title"><strong>Latest</strong> Events</h2>
+                </div>
+            </div>
+
+            
+            
+            <!-- Results count -->
+            <div class="col-md-6 text-right">
+                {% if events %}
+                <p class="text-muted mt-20">
+                    Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ paginator.count }} events
+                </p>
+                {% endif %}
+            </div>
+        </div>

@@ -14,7 +14,7 @@
 
 								<!-- site-logo-wrapper - start -->
 								<div class="site-logo-wrapper mb-10">
-									<a href="{% url 'homepage' %}" class="logo">
+									<a href="{% url 'events:homepage' %}" class="logo">
 										<img src="{% static 'assets/images/logo.png' %}" alt="logo_not_found">
 									</a>
 								</div>
@@ -77,8 +77,8 @@
 									useful <strong>links</strong>
 								</h3>
 								<ul>
-									<li><a href="{% url 'about_us' %}">About Tickora</a></li>
-									<li><a href="{% url 'contact' %}">Contact us</a></li>
+									<li><a href="{% url 'events:about_us' %}">About Tickora</a></li>
+									<li><a href="{% url 'events:contact' %}">Contact us</a></li>
 									<li><a href="#!">Events Schedule</a></li>
 									<li><a href="#!">Sponsors</a></li>
 									<li><a href="#!">Venues</a></li>
@@ -149,8 +149,8 @@
 						<div class="col-lg-5 col-md-12 col-sm-12">
 							<div class="footer-menu">
 								<ul>
-									<li><a href="{% url 'contact' %}">Contact us</a></li>
-									<li><a href="{% url 'about_us' %}">About us</a></li>
+									<li><a href="{% url 'events:contact' %}">Contact us</a></li>
+									<li><a href="{% url 'events:about_us' %}">About us</a></li>
  									<li><a href="#!">Site map</a></li>
 									<li><a href="#!">Privacy policy</a></li>
 								</ul>

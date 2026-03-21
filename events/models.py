@@ -14,7 +14,11 @@ from accounts.models import User, BaseModel
 from django.apps import apps
 
 
+class EventCategory(BaseModel):
+    name = models.CharField(max_length=20, verbose_name="Event Category")
 
+    def __str__(self):
+        return f"{self.name}"
 
 class Event(BaseModel):
     """
@@ -36,6 +40,7 @@ class Event(BaseModel):
     # Basic Information
     title = models.CharField(max_length=255, db_index=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    category = models.ForeignKey(EventCategory, on_delete=models.CASCADE)
     description = models.TextField()
     short_description = models.CharField(max_length=500)
     
@@ -118,6 +123,9 @@ class Event(BaseModel):
     def get_latest_events(cls, limit=5):
         return cls.objects.filter(status='Active').order_by('-created_at')[:limit]
     
+    def generate_slug(self):
+        return f"{self.title[0] ---- {self.title[3]}}"
+
     def clean(self):
         if self.end_date <= self.start_date:
             raise ValidationError('End date must be after start date')

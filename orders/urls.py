@@ -5,6 +5,7 @@ app_name = 'orders'
 
 urlpatterns = [
     # Cart URLs
+    path('checkout/<int:event_id>/', views.checkout, name='checkout'),
     path('cart/', views.cart_detail, name='cart_detail'),
     path('cart/add/<int:ticket_type_id>/', views.cart_add, name='cart_add'),
     path('cart/update/<int:ticket_type_id>/', views.cart_update, name='cart_update'),

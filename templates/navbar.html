@@ -79,7 +79,7 @@
 						<!-- site-logo-wrapper - start -->
 						<div class="col-lg-3">
 							<div class="site-logo-wrapper">
-								<a href="{% url 'homepage' %}" class="logo">
+								<a href="{% url 'events:homepage' %}" class="logo">
 									<img src="{% static 'assets/images/logo.png' %}" alt="logo_not_found">
 								</a>
 							</div>
@@ -96,19 +96,19 @@
 										<div class="menu-item-list ul-li clearfix">
 											<ul>
 												<li class="menu-item-has-children active">
-													<a href="{% url 'homepage' %}">home</a>
+													<a href="{% url 'events:homepage' %}">home</a>
 												</li>
 												<li class="menu-item-has-children">
-													<a href="{% url 'event-list' %}">events</a>
+													<a href="{% url 'events:event-list' %}">events</a>
 												</li>
 												<li>
-													<a href="{% url 'services' %}">Services</a>
+													<a href="{% url 'events:services' %}">Services</a>
 												</li>
 												<li class="menu-item-has-children">
-													<a href="{% url 'contact' %}">contact</a>
+													<a href="{% url 'events:contact' %}">contact</a>
 												</li>
 												<li class="menu-item-has-children">
-													<a href="{% url 'about_us' %}">about</a>
+													<a href="{% url 'events:about_us' %}">about</a>
 												</li>
 											</ul>
 										</div>
