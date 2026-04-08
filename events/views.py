@@ -78,90 +78,6 @@ class EventListView(ListView):
         
         return context
 
-# class EventListView(ListView):
-#     model = Event
-#     template_name = 'event/event_list.html'
-#     context_object_name = 'events'
-#     paginate_by = 6
-
-    # def get_queryset(self):
-    #     queryset = Event.objects.filter(
-    #         status='published',
-    #         start_date__gte=timezone.now()
-    #     ).select_related('organizer').annotate(
-    #         ticket_count=Count('tickets', distinct=True)
-    #     )
-        
-    #     # Search
-    #     search_query = self.request.GET.get('search')
-    #     if search_query:
-    #         queryset = queryset.filter(
-    #             Q(title__icontains=search_query) |
-    #             Q(description__icontains=search_query) |
-    #             Q(venue_name__icontains=search_query) |
-    #             Q(city__icontains=search_query)
-    #         )
-        
-    #     # Filter by date
-    #     date_filter = self.request.GET.get('date')
-    #     today = timezone.now().date()
-        
-    #     if date_filter == 'today':
-    #         queryset = queryset.filter(start_date__date=today)
-    #     elif date_filter == 'tomorrow':
-    #         tomorrow = today + timedelta(days=1)
-    #         queryset = queryset.filter(start_date__date=tomorrow)
-    #     elif date_filter == 'weekend':
-    #         # Assuming weekend is Friday-Sunday
-    #         queryset = queryset.filter(
-    #             start_date__date__gte=today,
-    #             start_date__date__lte=today + timedelta(days=7)
-    #         ).extra(where=["strftime('%w', start_date) IN ('5', '6', '0')"])
-    #     elif date_filter == 'week':
-    #         queryset = queryset.filter(
-    #             start_date__date__gte=today,
-    #             start_date__date__lte=today + timedelta(days=7)
-    #         )
-    #     elif date_filter == 'month':
-    #         queryset = queryset.filter(
-    #             start_date__date__gte=today,
-    #             start_date__date__lte=today + timedelta(days=30)
-    #         )
-        
-    #     # Filter by location
-    #     city = self.request.GET.get('city')
-    #     if city:
-    #         queryset = queryset.filter(city__icontains=city)
-        
-    #     # Filter by category/type
-    #     event_type = self.request.GET.get('type')
-    #     if event_type:
-    #         queryset = queryset.filter(venue_type=event_type)
-        
-    #     return queryset.order_by('start_date')
-    
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['featured_events'] = Event.objects.filter(
-    #         is_featured=True,
-    #         status='published',
-    #         start_date__gte=timezone.now()
-    #     )[:4]
-        
-    #     # Add filter options
-    #     context['cities'] = Event.objects.filter(
-    #         status='published'
-    #     ).values_list('city', flat=True).distinct()[:10]
-        
-    #     context['current_filters'] = {
-    #         'search': self.request.GET.get('search', ''),
-    #         'date': self.request.GET.get('date', ''),
-    #         'city': self.request.GET.get('city', ''),
-    #         'type': self.request.GET.get('type', ''),
-    #     }
-        
-    #     return context
-
 
 class EventHomePageListView(ListView):
     model = Event
@@ -188,17 +104,6 @@ class ContactView(TemplateView):
 class ServicesView(TemplateView):
     template_name = 'home/services.html'
     login_url = 'login'
-
-# class LatestEventListView(ListView):
-#     model = Event
-#     template_name = 'home/homepage.html'
-#     context_object_name = 'latest_events'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['latest_events'] = Event.objects.latest_events(limit=5)
-#         return context
-
 
 # @method_decorator(login_required, name='dispatch')
 class EventDetailView(DetailView):
@@ -295,11 +200,12 @@ class EventSearchListView(ListView):
         return context
 
     
-# class DashboardView(TemplateView):
-#     template_name = 'dashboard.html'pytho
+class DashboardView(TemplateView):
+    template_name = 'dashboard.html'
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         status_counts = Event.objects.values('status').annotate(count=Count('status'))
-#         context['status_counts'] = status_counts
-#         return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        status_counts = Event.objects.values('status').annotate(count=Count('status'))
+        context['status_counts'] = status_counts
+        context['total_tickets'] = Ticket.objects.filter()
+        return context

@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .payment_dashboard import PaymentListView, PaymentDetailView
 
 app_name = 'payments'
 
@@ -25,5 +26,8 @@ urlpatterns = [
     path('webhook/stripe/', views.stripe_webhook, name='stripe_webhook'),
     
     # Dashboard URLs (Admin only)
-    path('dashboard/payments/', views.dashboard_payment_list, name='dashboard_payment_list'),
+    # path('dashboard/payments/', views.dashboard_payment_list, name='dashboard_payment_list'),
+    
+    path('payments/', PaymentListView.as_view(), name='payment_list'),
+    path('payments/<int:pk>/', PaymentDetailView.as_view(), name='payment_detail'),
 ]

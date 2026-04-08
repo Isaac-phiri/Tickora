@@ -227,51 +227,51 @@ def payment_cancel(request, order_id):
 
 
 # Dashboard views
-@login_required
-def dashboard_payment_list(request):
-    """
-    Admin view for payments
-    """
-    if request.user.user_type != 'Admin':
-        messages.error(request, 'Access denied.')
-        return redirect('accounts:dashboard')
+# @login_required
+# def dashboard_payment_list(request):
+#     """
+#     Admin view for payments
+#     """
+#     if request.user.user_type != 'Admin':
+#         messages.error(request, 'Access denied.')
+#         return redirect('accounts:dashboard')
     
-    payments = Payment.objects.select_related('order', 'user').order_by('-payment_date')
+#     payments = Payment.objects.select_related('order', 'user').order_by('-payment_date')
     
-    # Apply filters
-    status = request.GET.get('status')
-    if status:
-        payments = payments.filter(status=status)
+#     # Apply filters
+#     status = request.GET.get('status')
+#     if status:
+#         payments = payments.filter(status=status)
     
-    gateway = request.GET.get('gateway')
-    if gateway:
-        payments = payments.filter(gateway=gateway)
+#     gateway = request.GET.get('gateway')
+#     if gateway:
+#         payments = payments.filter(gateway=gateway)
     
-    date_from = request.GET.get('date_from')
-    if date_from:
-        payments = payments.filter(payment_date__date__gte=date_from)
+#     date_from = request.GET.get('date_from')
+#     if date_from:
+#         payments = payments.filter(payment_date__date__gte=date_from)
     
-    date_to = request.GET.get('date_to')
-    if date_to:
-        payments = payments.filter(payment_date__date__lte=date_to)
+#     date_to = request.GET.get('date_to')
+#     if date_to:
+#         payments = payments.filter(payment_date__date__lte=date_to)
     
-    # Pagination
-    from django.core.paginator import Paginator
-    paginator = Paginator(payments, 20)
-    page = request.GET.get('page')
-    payments = paginator.get_page(page)
+#     # Pagination
+#     from django.core.paginator import Paginator
+#     paginator = Paginator(payments, 20)
+#     page = request.GET.get('page')
+#     payments = paginator.get_page(page)
     
-    # Statistics
-    total_volume = payments.aggregate(total=models.Sum('amount'))['total'] or 0
-    total_fees = payments.aggregate(total=models.Sum('gateway_fee'))['total'] or 0
+#     # Statistics
+#     total_volume = payments.aggregate(total=models.Sum('amount'))['total'] or 0
+#     total_fees = payments.aggregate(total=models.Sum('gateway_fee'))['total'] or 0
     
-    context = {
-        'payments': payments,
-        'total_volume': total_volume,
-        'total_fees': total_fees,
-        'net_volume': total_volume - total_fees,
-    }
-    return render(request, 'payments/dashboard/payment_list.html', context)
+#     context = {
+#         'payments': payments,
+#         'total_volume': total_volume,
+#         'total_fees': total_fees,
+#         'net_volume': total_volume - total_fees,
+#     }
+#     return render(request, 'payments/dashboard/payment_list.html', context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -796,52 +796,4 @@ def payment_retry(request, order_id):
     
     messages.success(request, "You can now retry payment.")
     return redirect('payment_page', order_id=order.id)
-
-# class PaymentView(View):
-#     def get(self, request, order_id):  # Add order_id parameter
-#         # Get order from session or directly from URL
-#         order_id = order_id or request.session.get('current_order_id')
-#         if not order_id:
-#             messages.error(request, "No order found. Please start over.")
-#             return redirect('event-list')
-            
-#         try:
-#             order = Order.objects.select_related('event').get(
-#                 id=order_id,
-#                 user = request.user
-#                 )
-            
-#             # Make sure the order belongs to this user
-#             if order.user != request.user:
-#                 messages.error(request, "You don't have permission to access this order.")
-#                 return redirect('event-list')
-            
-#             # Get fresh token first
-#             pesapal.get_access_token(force_refresh=True)
-            
-#             ipn_list = pesapal.get_ipn_list()
-#             ipn_id = ipn_list[0]['ipn_id'] if ipn_list else pesapal.register_ipn(settings.PESAPAL_IPN_URL)['ipn_id']
-            
-#             response = pesapal.submit_order(
-#                 order=order,  # Pass the order object
-#                 callback_url=request.build_absolute_uri(settings.PESAPAL_CALLBACK_URL),
-#                 ipn_id=ipn_id,
-#             )
-            
-#             if not response.get('redirect_url'):
-#                 raise ValueError("No redirect URL from PesaPal")
-                
-#             return render(request, 'payments/payments.html', {
-#                 'order': order,
-#                 'iframe_url': response['redirect_url']
-#             })
-#         except Order.DoesNotExist:
-#             messages.error(request, "Order not found.")
-#             return redirect('event-list')
-#         except Exception as e:
-#             print(f"Payment Error: {str(e)}")
-#             return render(request, 'payments/payment_failed.html', {
-#                 'error': "Payment initialization failed",
-#                 'debug': str(e)
-#             })
 

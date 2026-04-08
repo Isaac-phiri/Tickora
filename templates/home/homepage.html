@@ -533,58 +533,17 @@
                         {% endfor %}
                         <!-- event-item - end -->
 
-                        <!-- Pagination -->
-                        {% if page_obj %}
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="pagination ul-li clearfix">
-                                    <ul class="d-flex justify-content-center align-items-center">
-                                        {% if page_obj.has_previous %}
-                                            <li class="page-item prev-item">
-                                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&event_type={{ selected_category }}{% endif %}">
-                                                    <i class="fas fa-chevron-left"></i> Prev
-                                                </a>
-                                            </li>
-                                        {% else %}
-                                            <li class="page-item prev-item disabled">
-                                                <span class="page-link">
-                                                    <i class="fas fa-chevron-left"></i> Prev
-                                                </span>
-                                            </li>
-                                        {% endif %}
-                                        
-                                        {% for num in page_obj.paginator.page_range %}
-                                            {% if page_obj.number == num %}
-                                                <li class="page-item active">
-                                                    <span class="page-link">{{ num }}</span>
-                                                </li>
-                                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&event_type={{ selected_category }}{% endif %}">
-                                                        {{ num }}
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
-                                        
-                                        {% if page_obj.has_next %}
-                                            <li class="page-item next-item">
-                                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&event_type={{ selected_category }}{% endif %}">
-                                                    Next <i class="fas fa-chevron-right"></i>
-                                                </a>
-                                            </li>
-                                        {% else %}
-                                            <li class="page-item next-item disabled">
-                                                <span class="page-link">
-                                                    Next <i class="fas fa-chevron-right"></i>
-                                                </span>
-                                            </li>
-                                        {% endif %}
-                                    </ul>
-                                </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="pagination ul-li clearfix">
+                                <ul class="d-flex justify-content-center align-items-center">
+                                    <li class="ml-3">
+                                        <a href="{% url 'events:event-list' %}" class="custom-btn">
+                                            View All Events <i class="fas fa-arrow-right ml-1"></i>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        {% endif %}
 
                     </div>
                 </div>
@@ -719,23 +678,24 @@
         <div class="container">
             <div class="row">
 
-                <!-- section-title - start -->
+                <!-- section-title -->
                 <div class="col-lg-4 col-md-12 col-sm-12">
                     <div class="section-title text-left mb-30">
                         <span class="line-style"></span>
                         <small class="sub-title">we are Tickora</small>
                         <h2 class="big-title"><strong>No.1</strong> Ticketing System</h2>
                         <p class="black-color mb-50">
-                            Lorem ipsum dollor site amet the best  consectuer adipiscing elites sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat insignia the consectuer adipiscing elit. 
+                            Tickora is a modern ticketing platform designed to simplify how events are created, managed, and experienced. 
+                            We provide event organizers with powerful tools to sell tickets, track performance, and manage attendees, 
+                            while giving users a fast and seamless way to discover and book events.
                         </p>
                         <a href="{% url 'events:about_us' %}" class="custom-btn">
                             about Tickora
                         </a>
                     </div>
                 </div>
-                <!-- section-title - end -->
 
-                <!-- about-item-wrapper - start -->
+                <!-- about items -->
                 <div class="col-lg-8 col-md-12 col-sm-12">
                     <div class="about-item-wrapper ul-li">
                         <ul>
@@ -743,39 +703,41 @@
                             <li>
                                 <a href="#!" class="about-item">
                                     <span class="icon">
-                                        <i class="flaticon-handshake"></i>
+                                        <i class="flaticon-event-date-and-time-symbol"></i>
                                     </span>
                                     <strong class="title">
-                                        Friendly Experience
+                                        Easy Event Setup
                                     </strong>
                                     <small class="sub-title">
-                                        More than 200 teams
+                                        Create and launch events quickly
                                     </small>
                                 </a>
                             </li>
+
                             <li>
                                 <a href="#!" class="about-item">
                                     <span class="icon">
-                                        <i class="flaticon-two-balloons"></i>
+                                        <i class="flaticon-light-bulb"></i>
                                     </span>
                                     <strong class="title">
-                                        perfact Event
+                                        Smart Ticketing
                                     </strong>
                                     <small class="sub-title">
-                                        perfact venues
+                                        Automated and secure ticket generation
                                     </small>
                                 </a>
                             </li>
+
                             <li>
                                 <a href="#!" class="about-item">
                                     <span class="icon">
-                                        <i class="flaticon-cheers"></i>
+                                        <i class="flaticon-group"></i>
                                     </span>
                                     <strong class="title">
-                                        Unique Scenario
+                                        Audience Engagement
                                     </strong>
                                     <small class="sub-title">
-                                        We thinking out of the box
+                                        Reach and manage your attendees بسهولة
                                     </small>
                                 </a>
                             </li>
@@ -786,36 +748,38 @@
                                         <i class="flaticon-clown-hat"></i>
                                     </span>
                                     <strong class="title">
-                                        Unforgettable Time
+                                        Seamless Experience
                                     </strong>
                                     <small class="sub-title">
-                                        We make you perfect event
+                                        Smooth booking and check-in process
                                     </small>
                                 </a>
                             </li>
+
                             <li>
                                 <a href="#!" class="about-item">
                                     <span class="icon">
                                         <i class="flaticon-speech-bubble"></i>
                                     </span>
                                     <strong class="title">
-                                        24/7 Hours Support
+                                        Reliable Support
                                     </strong>
                                     <small class="sub-title">
-                                        Anytime anywhere
+                                        Assistance whenever you need it
                                     </small>
                                 </a>
                             </li>
+
                             <li>
                                 <a href="#!" class="about-item">
                                     <span class="icon">
-                                        <i class="flaticon-light-bulb"></i>
+                                        <i class="flaticon-handshake"></i>
                                     </span>
                                     <strong class="title">
-                                        Briliant Idea
+                                        Secure Transactions
                                     </strong>
                                     <small class="sub-title">
-                                        We have million idea
+                                        Safe and trusted payment processing
                                     </small>
                                 </a>
                             </li>
@@ -823,7 +787,7 @@
                         </ul>
                     </div>
                 </div>
-                <!-- about-item-wrapper - end -->
+                <!-- about items end -->
                 
             </div>
         </div>
@@ -831,670 +795,29 @@
     <!-- about-section - end
     ================================================== -->
 
-
-
-
-
-    {% comment %} <!-- conference-section - start
-    ================================================== -->
-    <section id="conference-section" class="conference-section clearfix">
-        <div class="jarallax" style="background-image: url({% static 'assets/images/conference/pexels-photo-262669.jpg' %});">
-            <div class="overlay-black sec-ptb-100">
-
-                <div class="mb-50">
-                    <div class="container">
-                        <div class="row">
-
-                            <!-- section-title - start -->
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <div class="section-title text-left">
-                                    <span class="line-style"></span>
-                                    <small class="sub-title">Tickora venues</small>
-                                    <h2 class="big-title">Conference <strong>Rooms & Hotels</strong></h2>
-                                </div>
-                            </div>
-                            <!-- section-title - end -->
-
-                            <!-- conference-location - start -->
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <div class="conference-location ul-li clearfix">
-                                    <ul>
-
-                                        <!-- country-select - start -->
-                                        <li class="country-select">
-                                            <form action="#!">
-                                                <label for="country">City :</label>
-                                                <select class="custom-select" id="country">
-                                                    <option selected>Lusaka</option>
-                                                    <option value="1">Chipata</option>
-                                                    <option value="2">Kabwe</option>
-                                                    <option value="3">Ndola</option>
-                                                </select>	
-                                            </form>
-                                        </li>
-                                        <!-- country-select - end -->
-
-                                        <!-- city-select - start -->
-                                        <li class="city-select">
-                                            <form action="#!">
-                                                <label for="city">Venues :</label>
-                                                <select class="custom-select" id="city">
-                                                    <option selected>MandaHill</option>
-                                                    <option value="1">Lost Valley</option>
-                                                    <option value="2">Mulungushi</option>
-                                                    <option value="3">East Park</option>
-                                                </select>	
-                                            </form>
-                                        </li>
-                                        <!-- city-select - end -->
-
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- conference-location - end -->
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- conference-content-wrapper - start -->
-                <div class="tab-wrapper">
-
-                    <!-- tab-menu - start -->
-                    <div class="container">
-                        <div class="row justify-content-lg-start">
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <div class="tab-menu">
-                                    <ul class="nav tab-nav mb-50">
-
-                                        <li class="nav-item">
-                                            <a class="nav-link active" id="nav-one-tab" data-toggle="tab" href="#nav-one" aria-expanded="true">
-                                                <span class="image">
-                                                    <img src="{% static 'assets/images/conference/RCJAKPP_00016_coddddnversion.jpg' %}" alt="Image_not_found">
-                                                </span>
-                                                <span class="title">
-                                                    <strong class="yellow-color">5 <i class="fas fa-star"></i> InterContinentaly </strong>
-                                                    Hotel
-                                                </span>
-                                                <small class="sub-title">Party Room 2.500 seats</small>
-                                                <small class="price yellow-color">Price from $52/night</small>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="nav-two-tab" data-toggle="tab" href="#nav-two" aria-expanded="false">
-                                                <span class="image">
-                                                    <img src="{% static 'assets/images/conference/fresh-conference-room-microphones-decoration-ideas-collection-gallery-to-conference-room-microphones-home-ideas.jpg' %}" alt="Image_not_found">
-                                                </span>
-                                                <span class="title">
-                                                    <strong class="yellow-color">4 <i class="fas fa-star"></i> Exotic </strong>
-                                                    Hotel
-                                                </span>
-                                                <small class="sub-title">Party Room 2.500 seats</small>
-                                                <small class="price yellow-color">Price from $52/night</small>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="nav-three-tab" data-toggle="tab" href="#nav-three" aria-expanded="false">
-                                                <span class="image">
-                                                    <img src="{% static 'assets/images/conference/RCTORON_00047ss.jpg' %}" alt="Image_not_found">
-                                                </span>
-                                                <span class="title">
-                                                    <strong class="yellow-color">3 <i class="fas fa-star"></i> Radson Blue </strong>
-                                                    Hotel
-                                                </span>
-                                                <small class="sub-title">Party Room 2.500 seats</small>
-                                                <small class="price yellow-color">Price from $52/night</small>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="nav-four-tab" data-toggle="tab" href="#nav-four" aria-expanded="false">
-                                                <span class="image">
-                                                    <img src="{% static 'assets/images/conference/clayton-hotel-leopardstown-meeting-room-1.jpg' %}" alt="Image_not_found">
-                                                </span>
-                                                <span class="title">
-                                                    <strong class="yellow-color">5 <i class="fas fa-star"></i> Mulungushi Conference </strong>
-                                                    Hotel
-                                                </span>
-                                                <small class="sub-title">Party Room 2.500 seats</small>
-                                                <small class="price yellow-color">Price from $52/night</small>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="nav-five-tab" data-toggle="tab" href="#nav-five" aria-expanded="false">
-                                                <span class="image">
-                                                    <img src="{% static 'assets/images/conference/conference-room-with-projection-facilities-3d-model-max.jpg' %}" alt="Image_not_found">
-                                                </span>
-                                                <span class="title">
-                                                    <strong class="yellow-color">4 <i class="fas fa-star"></i> Southern Sun Ridgeway </strong>
-                                                    Hotel
-                                                </span>
-                                                <small class="sub-title">Party Room 2.500 seats</small>
-                                                <small class="price yellow-color">Price from $52/night</small>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="nav-six-tab" data-toggle="tab" href="#nav-six" aria-expanded="false">
-                                                <span class="image">
-                                                    <img src="{% static 'assets/images/conference/midlands-park-hotel-meeting-rooms.jpg' %}" alt="Image_not_found">
-                                                </span>
-                                                <span class="title">
-                                                    <strong class="yellow-color">3 <i class="fas fa-star"></i> Chamba Valley </strong>
-                                                    Hotel
-                                                </span>
-                                                <small class="sub-title">Party Room 2.500 seats</small>
-                                                <small class="price yellow-color">Price from $52/night</small>
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                    <div class="more-btn">
-                                        <a href="#!">
-                                            <strong class="yellow-color">VIEW ALL</strong> HOTEL & RESORT
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- tab-menu - end -->
-
-                    <!-- tab-content - start -->
-                    <div class="tab-content">
-                        <!-- tab-pane - start -->
-                        <div class="tab-pane fade active show" id="nav-one" role="tabpanel" aria-labelledby="nav-one-tab" aria-expanded="true">
-                            <div class="image">
-                                <img src="{% static 'assets/images/conference/RCJAKPP_00016_coddddnversion.jpg' %}" alt="Image_not_found">
-                                <a href="#!" class="custom-btn">
-                                    booking now
-                                </a>
-                                <div class="badge-item">
-                                    <div class="content">
-                                        <i class="fas fa-star"></i>
-                                        <strong>5.0</strong>
-                                        <small>featured hotel</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- tab-pane - end -->
-
-                        <!-- tab-pane - start -->
-                        <div class="tab-pane fade" id="nav-two" role="tabpanel" aria-labelledby="nav-two-tab" aria-expanded="false">
-                            <div class="image">
-                                <img src="{% static 'assets/images/conference/fresh-conference-room-microphones-decoration-ideas-collection-gallery-to-conference-room-microphones-home-ideas.jpg' %}" alt="Image_not_found">
-                                <a href="#!" class="custom-btn">
-                                    booking now
-                                </a>
-                                <div class="badge-item">
-                                    <div class="content">
-                                        <i class="fas fa-star"></i>
-                                        <strong>5.0</strong>
-                                        <small>featured hotel</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- tab-pane - end -->
-
-                        <!-- tab-pane - start -->
-                        <div class="tab-pane fade" id="nav-three" role="tabpanel" aria-labelledby="nav-three-tab" aria-expanded="false">
-                            <div class="image">
-                                <img src="{% static 'assets/images/conference/RCTORON_00047ss.jpg' %}" alt="Image_not_found">
-                                <a href="#!" class="custom-btn">
-                                    booking now
-                                </a>
-                                <div class="badge-item">
-                                    <div class="content">
-                                        <i class="fas fa-star"></i>
-                                        <strong>5.0</strong>
-                                        <small>featured hotel</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- tab-pane - end -->
-
-                        <!-- tab-pane - start -->
-                        <div class="tab-pane fade" id="nav-four" role="tabpanel" aria-labelledby="nav-four-tab" aria-expanded="false">
-                            <div class="image">
-                                <img src="{% static 'assets/images/conference/clayton-hotel-leopardstown-meeting-room-1.jpg' %}" alt="Image_not_found">
-                                <a href="#!" class="custom-btn">
-                                    booking now
-                                </a>
-                                <div class="badge-item">
-                                    <div class="content">
-                                        <i class="fas fa-star"></i>
-                                        <strong>5.0</strong>
-                                        <small>featured hotel</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- tab-pane - end -->
-
-                        <!-- tab-pane - start -->
-                        <div class="tab-pane fade" id="nav-five" role="tabpanel" aria-labelledby="nav-five-tab" aria-expanded="false">
-                            <div class="image">
-                                <img src="{% static 'assets/images/conference/conference-room-with-projection-facilities-3d-model-max.jpg' %}" alt="Image_not_found">
-                                <a href="#!" class="custom-btn">
-                                    booking now
-                                </a>
-                                <div class="badge-item">
-                                    <div class="content">
-                                        <i class="fas fa-star"></i>
-                                        <strong>5.0</strong>
-                                        <small>featured hotel</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- tab-pane - end -->
-
-                        <!-- tab-pane - start -->
-                        <div class="tab-pane fade" id="nav-six" role="tabpanel" aria-labelledby="nav-six-tab" aria-expanded="false">
-                            <div class="image">
-                                <img src="{% static 'assets/images/conference/midlands-park-hotel-meeting-rooms.jpg' %}" alt="Image_not_found">
-                                <a href="#!" class="custom-btn">
-                                    booking now
-                                </a>
-                                <div class="badge-item">
-                                    <div class="content">
-                                        <i class="fas fa-star"></i>
-                                        <strong>5.0</strong>
-                                        <small>featured hotel</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- tab-pane - end -->
-
-                    </div>
-                    <!-- tab-content - end -->
-
-                </div>
-                <!-- conference-content-wrapper - end -->
-
-            </div>
-        </div>
-    </section>
-    <!-- conference-section - end
-    ================================================== --> {% endcomment %}
-
-
-    <!-- event-expertise-section - start
-    ================================================== -->
-    <section id="event-expertise-section" class="event-expertise-section bg-gray-light sec-ptb-100 clearfix">
-        <div class="container">
-
-            <!-- section-title - start -->
-            <div class="section-title text-center mb-50">
-                <small class="sub-title">our services</small>
-                <h2 class="big-title">Coming <strong>Soon</strong></h2>
-            </div>
-            <!-- section-title - end -->
-
-            <!-- event-expertise-carousel - start -->
-            <div id="event-expertise-carousel" class="event-expertise-carousel owl-carousel owl-theme">
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img1.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">Wedding Party</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img2.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">birthday Party</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img3.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">business meeting</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img1.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">Wedding Party</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img2.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">birthday Party</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img3.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">business meeting</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img1.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">Wedding Party</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img2.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">birthday Party</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img3.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">business meeting</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img1.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">Wedding Party</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img2.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">birthday Party</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-                <!-- expertise-item - start -->
-                <div class="item">
-                    <span class="expertise-title">Tickora party events</span>
-                    <div class="expertise-item">
-                        <div class="image image-wrapper">
-                            <img src="{% static 'assets/images/experties/img3.jpg' %}" alt="Image_not_found">
-                            <a href="#!" class="plus-effect"></a>
-                        </div>
-                        <div class="content">
-                            <h3 class="title">business meeting</h3>
-                            <p>Start from <strong>$1.200-$2.000</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- expertise-item - end -->
-
-            </div>
-            <!-- event-expertise-carousel - end -->
-
-        </div>
-    </section>
-    <!-- event-expertise-section - end
-    ================================================== -->
-
-
-
     <!-- advertisement-section - start
     ================================================== -->
     <section id="advertisement-section" class="advertisement-section clearfix" style="background-image: url({% static 'assets/images/special-offer-bg.png' %});">
         <div class="container">
             <div class="advertisement-content text-center">
 
-                <h2 class="title-large white-color">Are you ready to make <strong>your Own Special Events?</strong></h2>
-                <p class="mb-31">“Get started now, Tickora event management ”</p>
-                <a href="#!" class="purchase-btn">purchase now!</a>
+                <h2 class="title-large white-color">
+                    Ready to Create and Manage <strong>Your Next Event?</strong>
+                </h2>
+
+                <p class="mb-31">
+                    Join Tickora today and start selling tickets, managing attendees, and growing your events with ease.
+                </p>
+
+                <a href="#" class="purchase-btn">
+                    Get Started Now
+                </a>
                 
             </div>
         </div>
     </section>
     <!-- advertisement-section - end
     ================================================== -->
-
-
-    <!-- news-update-section - start
-    ================================================== -->
-    <section id="news-update-section" class="news-update-section sec-ptb-100 clearfix">
-        <div class="container">
-            <div class="row">
-
-                <!-- faq-accordion - start -->
-                <div class="col-lg-6 col-md-12 col-sm-12">
-                    <!-- section-title - start -->
-                    <div class="section-title mb-30">
-                        <span class="line-style"></span>
-                        <small class="sub-title">find your answer</small>
-                        <h2 class="big-title">ask & <strong>questions</strong></h2>
-                    </div>
-                    <!-- section-title - end -->
-                    <div id="faq-accordion" class="faq-accordion">
-
-                        <div class="card">
-                            <div class="card-header" id="headingone">
-                                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseone" aria-expanded="true" aria-controls="collapseone">
-                                    <span>01.</span> How to join Tickora Event Management?
-                                </button>
-                            </div>
-
-                            <div id="collapseone" class="collapse" aria-labelledby="headingone" data-parent="#faq-accordion">
-                                <div class="card-body">
-                                    <h3>answer</h3>
-                                    Bring people together, or turn your passion into a business. Tickora gives you everything you need to host your best event yet. lorem ipsum diamet.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="headingtwo">
-                                <button class="btn" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="false" aria-controls="collapsetwo">
-                                    <span>02.</span> How to make my own event?
-                                </button>
-                            </div>
-                            <div id="collapsetwo" class="collapse show" aria-labelledby="headingtwo" data-parent="#faq-accordion">
-                                <div class="card-body">
-                                    <h3>answer</h3>
-                                    Bring people together, or turn your passion into a business. Tickora gives you everything you need to host your best event yet. lorem ipsum diamet.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="headingthree">
-                                <button class="btn collapsed" data-toggle="collapse" data-target="#collapsethree" aria-expanded="false" aria-controls="collapsethree">
-                                    <span>03.</span> About the price to make new event?
-                                </button>
-                            </div>
-                            <div id="collapsethree" class="collapse" aria-labelledby="headingthree" data-parent="#faq-accordion">
-                                <div class="card-body">
-                                    <h3>answer</h3>
-                                    Bring people together, or turn your passion into a business. Tickora gives you everything you need to host your best event yet. lorem ipsum diamet.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="headingfour">
-                                <button class="btn collapsed" data-toggle="collapse" data-target="#collapsefour" aria-expanded="false" aria-controls="collapsefour">
-                                    <span>04.</span> About the price to make new event?
-                                </button>
-                            </div>
-                            <div id="collapsefour" class="collapse" aria-labelledby="headingfour" data-parent="#faq-accordion">
-                                <div class="card-body">
-                                    <h3>answer</h3>
-                                    Bring people together, or turn your passion into a business. Tickora gives you everything you need to host your best event yet. lorem ipsum diamet.
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- faq-accordion - end -->
-
-                <!-- latest-blog-wrapper - start -->
-                <div class="col-lg-6 col-md-12 col-sm-12">
-                    <div class="latest-blog-wrapper">
-
-                        <!-- section-title - start -->
-                        <div class="section-title mb-30">
-                            <span class="line-style"></span>
-                            <small class="sub-title">our blog</small>
-                            <h2 class="big-title">latest <strong>news</strong></h2>
-                        </div>
-                        <!-- section-title - end -->
-
-                        <!-- latest-blog - start -->
-                        <div class="latest-blog clearfix">
-                            <div class="blog-image">
-                                <img src="{% static 'assets/images/blog/1.latest-blog.jpg' %}" alt="Image_not_found">
-                                <a href="#!" class="plus-effect"></a>
-                            </div>
-                            <div class="blog-content">
-                                <div class="blog-title mb-30">
-                                    <h3>Barcelona Friday Food Truck Festival 26 Mei 2019</h3>
-                                    <span>26 June 2018</span>
-                                </div>
-                                <p class="m-0">
-                                    Tickora gives you everything you need to host your best event yet. lorem ipsum diamet.
-                                </p>
-                            </div>
-                        </div>
-                        <!-- latest-blog - end -->
-
-                        <!-- latest-blog - start -->
-                        <div class="latest-blog clearfix">
-                            <div class="blog-image">
-                                <img src="{% static 'assets/images/blog/1.latest-blog.jpg' %}" alt="Image_not_found">
-                                <a href="#!" class="plus-effect"></a>
-                            </div>
-                            <div class="blog-content">
-                                <div class="blog-title mb-30">
-                                    <h3>Barcelona Friday Food Truck Festival 26 Mei 2019</h3>
-                                    <span>26 June 2018</span>
-                                </div>
-                                <p class="m-0">
-                                    Tickora gives you everything you need to host your best event yet. lorem ipsum diamet.
-                                </p>
-                            </div>
-                        </div>
-                        <!-- latest-blog - end -->
-
-                    </div>
-                </div>
-                <!-- latest-blog-wrapper - end -->
-                
-            </div>
-        </div>
-    </section>
-    <!-- news-update-section - end
-    ================================================== -->
-
-
-
-
 
     <!-- google map - start ================================================== -->
 		<section id="map-section" class="map-section clearfix">

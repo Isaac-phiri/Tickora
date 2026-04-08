@@ -384,141 +384,141 @@ def order_tickets(request, order_id):
 
 
 # Dashboard views
-@login_required
-def dashboard_order_list(request):
-    """
-    Dashboard view for orders (filtered by user role)
-    """
-    if request.user.user_type == 'Admin':
-        orders = Order.objects.all().select_related('user', 'event')
-    elif request.user.user_type == 'Staff':
-        # Staff can see orders for events they organize
-        orders = Order.objects.filter(
-            event__in=request.user.organized_events.all()
-        ).select_related('user', 'event')
-    else:
-        # Customers see only their orders
-        orders = Order.objects.filter(user=request.user).select_related('event')
+# @login_required
+# def dashboard_order_list(request):
+#     """
+#     Dashboard view for orders (filtered by user role)
+#     """
+#     if request.user.user_type == 'Admin':
+#         orders = Order.objects.all().select_related('user', 'event')
+#     elif request.user.user_type == 'Staff':
+#         # Staff can see orders for events they organize
+#         orders = Order.objects.filter(
+#             event__in=request.user.organized_events.all()
+#         ).select_related('user', 'event')
+#     else:
+#         # Customers see only their orders
+#         orders = Order.objects.filter(user=request.user).select_related('event')
     
-    # Apply filters
-    status = request.GET.get('status')
-    if status:
-        orders = orders.filter(status=status)
+#     # Apply filters
+#     status = request.GET.get('status')
+#     if status:
+#         orders = orders.filter(status=status)
     
-    event_id = request.GET.get('event')
-    if event_id:
-        orders = orders.filter(event_id=event_id)
+#     event_id = request.GET.get('event')
+#     if event_id:
+#         orders = orders.filter(event_id=event_id)
     
-    date_from = request.GET.get('date_from')
-    if date_from:
-        orders = orders.filter(order_date__date__gte=date_from)
+#     date_from = request.GET.get('date_from')
+#     if date_from:
+#         orders = orders.filter(order_date__date__gte=date_from)
     
-    date_to = request.GET.get('date_to')
-    if date_to:
-        orders = orders.filter(order_date__date__lte=date_to)
+#     date_to = request.GET.get('date_to')
+#     if date_to:
+#         orders = orders.filter(order_date__date__lte=date_to)
     
-    search = request.GET.get('search')
-    if search:
-        orders = orders.filter(
-            Q(order_number__icontains=search) |
-            Q(email__icontains=search) |
-            Q(user__email__icontains=search) |
-            Q(user__first_name__icontains=search) |
-            Q(user__last_name__icontains=search)
-        )
+#     search = request.GET.get('search')
+#     if search:
+#         orders = orders.filter(
+#             Q(order_number__icontains=search) |
+#             Q(email__icontains=search) |
+#             Q(user__email__icontains=search) |
+#             Q(user__first_name__icontains=search) |
+#             Q(user__last_name__icontains=search)
+#         )
     
-    # Pagination
-    from django.core.paginator import Paginator
-    paginator = Paginator(orders, 20)
-    page = request.GET.get('page')
-    orders = paginator.get_page(page)
+#     # Pagination
+#     from django.core.paginator import Paginator
+#     paginator = Paginator(orders, 20)
+#     page = request.GET.get('page')
+#     orders = paginator.get_page(page)
     
-    # Get events for filter dropdown
-    if request.user.user_type == 'Admin':
-        events = Event.objects.all()
-    elif request.user.user_type == 'Staff':
-        events = request.user.organized_events.all()
-    else:
-        events = Event.objects.filter(orders__user=request.user).distinct()
+#     # Get events for filter dropdown
+#     if request.user.user_type == 'Admin':
+#         events = Event.objects.all()
+#     elif request.user.user_type == 'Staff':
+#         events = request.user.organized_events.all()
+#     else:
+#         events = Event.objects.filter(orders__user=request.user).distinct()
     
-    context = {
-        'orders': orders,
-        'events': events,
-        'status': status,
-        'event_id': event_id,
-        'date_from': date_from,
-        'date_to': date_to,
-        'search': search,
-    }
-    return render(request, 'orders/dashboard/order_list.html', context)
+#     context = {
+#         'orders': orders,
+#         'events': events,
+#         'status': status,
+#         'event_id': event_id,
+#         'date_from': date_from,
+#         'date_to': date_to,
+#         'search': search,
+#     }
+#     return render(request, 'orders/dashboard/order_list.html', context)
 
 
-@login_required
-def dashboard_order_detail(request, pk):
-    """
-    Dashboard view for order details
-    """
-    if request.user.user_type == 'Admin':
-        order = get_object_or_404(
-            Order.objects.select_related('user', 'event').prefetch_related(
-                'order_items__ticket_type',
-                'tickets__ticket_type',
-                'payment'
-            ),
-            pk=pk
-        )
-    elif request.user.user_type == 'Staff':
-        order = get_object_or_404(
-            Order.objects.filter(event__in=request.user.organized_events.all()).select_related(
-                'user', 'event'
-            ).prefetch_related(
-                'order_items__ticket_type',
-                'tickets__ticket_type',
-                'payment'
-            ),
-            pk=pk
-        )
-    else:
-        order = get_object_or_404(
-            Order.objects.filter(user=request.user).select_related(
-                'user', 'event'
-            ).prefetch_related(
-                'order_items__ticket_type',
-                'tickets__ticket_type'
-            ),
-            pk=pk
-        )
+# @login_required
+# def dashboard_order_detail(request, pk):
+#     """
+#     Dashboard view for order details
+#     """
+#     if request.user.user_type == 'Admin':
+#         order = get_object_or_404(
+#             Order.objects.select_related('user', 'event').prefetch_related(
+#                 'order_items__ticket_type',
+#                 'tickets__ticket_type',
+#                 'payment'
+#             ),
+#             pk=pk
+#         )
+#     elif request.user.user_type == 'Staff':
+#         order = get_object_or_404(
+#             Order.objects.filter(event__in=request.user.organized_events.all()).select_related(
+#                 'user', 'event'
+#             ).prefetch_related(
+#                 'order_items__ticket_type',
+#                 'tickets__ticket_type',
+#                 'payment'
+#             ),
+#             pk=pk
+#         )
+#     else:
+#         order = get_object_or_404(
+#             Order.objects.filter(user=request.user).select_related(
+#                 'user', 'event'
+#             ).prefetch_related(
+#                 'order_items__ticket_type',
+#                 'tickets__ticket_type'
+#             ),
+#             pk=pk
+#         )
     
-    context = {
-        'order': order,
-    }
-    return render(request, 'orders/dashboard/order_detail.html', context)
+#     context = {
+#         'order': order,
+#     }
+#     return render(request, 'orders/dashboard/order_detail.html', context)
 
 
-@require_POST
-@login_required
-def dashboard_order_update_status(request, pk):
-    """
-    Update order status (Admin/Staff only)
-    """
-    if request.user.user_type not in ['Admin', 'Staff']:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
+# @require_POST
+# @login_required
+# def dashboard_order_update_status(request, pk):
+#     """
+#     Update order status (Admin/Staff only)
+#     """
+#     if request.user.user_type not in ['Admin', 'Staff']:
+#         return JsonResponse({'error': 'Permission denied'}, status=403)
     
-    order = get_object_or_404(Order, pk=pk)
-    new_status = request.POST.get('status')
+#     order = get_object_or_404(Order, pk=pk)
+#     new_status = request.POST.get('status')
     
-    if new_status in dict(Order.OrderStatus.choices):
-        order.status = new_status
-        order.save()
+#     if new_status in dict(Order.OrderStatus.choices):
+#         order.status = new_status
+#         order.save()
         
-        # Send email notification
-        if new_status == 'cancelled':
-            # TODO: Send cancellation email
-            pass
-        elif new_status == 'refunded':
-            # TODO: Process refund
-            pass
+#         # Send email notification
+#         if new_status == 'cancelled':
+#             # TODO: Send cancellation email
+#             pass
+#         elif new_status == 'refunded':
+#             # TODO: Process refund
+#             pass
         
-        return JsonResponse({'success': True, 'status': order.get_status_display()})
+#         return JsonResponse({'success': True, 'status': order.get_status_display()})
     
-    return JsonResponse({'error': 'Invalid status'}, status=400)
+#     return JsonResponse({'error': 'Invalid status'}, status=400)

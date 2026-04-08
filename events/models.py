@@ -124,7 +124,7 @@ class Event(BaseModel):
         return cls.objects.filter(status='Active').order_by('-created_at')[:limit]
     
     def generate_slug(self):
-        return f"{self.title[0] ---- {self.title[3]}}"
+        return f"{self.title[0] , {self.title[3]}}"
 
     def clean(self):
         if self.end_date <= self.start_date:
